@@ -4,12 +4,14 @@ import { FormsModule } from '@angular/forms';
 //import { HttpModule } from "@angular/http";
 
 import { AppComponent } from './app.component';
-import { ServerComponent } from './server/server.component';
+// line not working?
+//import { ServerComponent } from './server/server.component';
 
 @NgModule({
-  declarations: [ // when adding components make sure to put them here
+  declarations: [
+    // when adding components make sure to put them here
     AppComponent,
-    ServerComponent
+    //ServerComponent
   ],
   imports: [
     BrowserModule,
@@ -17,6 +19,6 @@ import { ServerComponent } from './server/server.component';
     //HttpModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
