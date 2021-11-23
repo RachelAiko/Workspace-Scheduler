@@ -4,22 +4,36 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MongoDBWebAPI.Models;
+using MongoDBWebAPI.Services;
 
-namespace API.Controllers
+namespace MongoDBWebAPI.Controllers
 {
-    public class UsersController : BaseApiController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UsersController : ControllerBase
     {
-        private string testProp { get; set; }
-        public UsersController()
+        private readonly UserService _userService;
+        
+        public UsersController(UserService userService)
         {
-            testProp = "I'm a user";
+            _userService = userService;
         }
 
-        [AllowAnonymous]
         [HttpGet]
-        public string GetTest()
+        public ActionResult<List<User>> Get() => _userService.Get();
+
+        [HttpGet("{id:length(24)}", Name = "GetUser")]
+        public ActionResult<User> Get(string id)
         {
-            return "{\"testProp\": \"" + testProp + "\"}";
+            var usr = _userService.Get(id);
+
+            if (usr == null)
+            {
+                return NotFound();
+            }
+
+            return usr;
         }
     }
 }

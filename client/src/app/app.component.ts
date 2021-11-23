@@ -9,7 +9,6 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   name = 'Rachelcd';
   testResponse: any;
-  testUser: any;
 
   constructor(private http: HttpClient) {}
 
@@ -20,8 +19,7 @@ export class AppComponent implements OnInit {
   getTest() {
     this.http.get('https://localhost:5001/api/users').subscribe(
       (response) => {
-        this.testResponse = response;
-        this.testUser = this.testResponse.testProp;
+        console.log(response);
       },
       (error) => {
         console.log(error);
