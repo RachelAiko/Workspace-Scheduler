@@ -4,11 +4,11 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
   name = 'Rachelcd';
-  testResponse: any;
+  users: any;
 
   constructor(private http: HttpClient) {}
 
@@ -19,11 +19,11 @@ export class AppComponent implements OnInit {
   getTest() {
     this.http.get('https://localhost:5001/api/users').subscribe(
       (response) => {
-        console.log(response);
+        this.users = response;
       },
       (error) => {
         console.log(error);
       }
-    )
+    );
   }
 }

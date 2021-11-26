@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Workspace Scheduler</title>
+	<title>Workspace Scheduler</title>
 </head>
+
 <body>
 
-<h1>Hello Team</h1>
-<p>This is going to be an awesome project!</p>
-<p>Test Route from backend: {{testResponse}}</p>
+	<h1>Hello Team</h1>
+	<p>This is going to be an awesome project!</p>
+	<p>Test Route - get all users from database:</p>
+	<ul>
+		<li *ngFor="let user of users">ID: {{ user.id }} - {{ user.firstName }} {{ user.lastName }}</li>
+	</ul>
+
 
 </body>
+
 </html>
