@@ -10,6 +10,8 @@ export class AppComponent implements OnInit {
   name = 'Rachelcd';
   users: any;
 
+  title = 'auth1';
+
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
