@@ -5,12 +5,15 @@ import { HttpClientModule } from "@angular/common/http";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HeaderComponent } from './header/header.component';
+import { ContentComponent } from './content/content.component';
 
 @NgModule({
   declarations: [
-    // when adding components make sure to put them here
     AppComponent,
-    //ServerComponent
+    HeaderComponent,
+    ContentComponent
   ],
   imports: [
     BrowserModule,

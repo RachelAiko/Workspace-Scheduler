@@ -7,14 +7,18 @@
 
 <body>
 
-	<h1>Hello Team</h1>
-	<p>This is going to be an awesome project!</p>
-	<p>Test Route - get all users from database:</p>
-	<ul>
-		<li *ngFor="let user of users">ID: {{ user.id }} - {{ user.firstName }} {{ user.lastName }}</li>
-	</ul>
+<!--- calls to components -------------->
+<app-header></app-header>
+<app-content></app-content>
 
-
+<!--- test route for database-->
+<p>Test Route - get all users from database:</p>
+<ul>
+	<li *ngFor="let user of users">ID: {{ user.id }} - {{ user.firstName }} {{ user.lastName }}</li>
+</ul>
 </body>
+
+<!-- * * * * * * * * * * Required  * * * * * * * * * * * * * * * * * * * -->
+<router-outlet></router-outlet>
 
 </html>

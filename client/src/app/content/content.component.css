@@ -1,0 +1,17 @@
+/* .container-fluid {
+    border:1px solid white;
+    background-color: ghostwhite;
+    margin: 1em 0px;
+    border-radius: 0.3rem;
+    box-shadow: black 0px 1px 8px;
+    padding: 16px;
+    box-radius: 4px
+} */
+.container-fluid {
+    background-color: white;
+    margin: 1em 0px;
+    border-radius: 0.3rem;
+    box-shadow: black 0px 1px 8px;
+    padding: 16px;
+    border-radius: 4px;
+}
