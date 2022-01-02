@@ -4,6 +4,8 @@ h1{
 }
 .navbar-light {
     background-color: rgb(191, 210, 224);
+	font-family: 'Varela Round', sans-serif;
+	font-size: 120%;
 }
 
 body {

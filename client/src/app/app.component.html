@@ -7,15 +7,17 @@
 
 <body>
 
-<!--- calls to components -------------->
-<app-header></app-header>
-<app-content></app-content>
+	<!--- calls to components -------------->
+	<app-header></app-header>
 
-<!--- test route for database-->
-<p>Test Route - get all users from database:</p>
-<ul>
-	<li *ngFor="let user of users">ID: {{ user.id }} - {{ user.firstName }} {{ user.lastName }}</li>
-</ul>
+		<!--- test route for database-->
+		<p>Test Route - get all users from database:</p>
+		<ul>
+			<li *ngFor="let user of users">ID: {{ user.id }} - {{ user.firstName }} {{ user.lastName }}</li>
+		</ul>
+	
+	<app-content></app-content>
+
 </body>
 
 <!-- * * * * * * * * * * Required  * * * * * * * * * * * * * * * * * * * -->
