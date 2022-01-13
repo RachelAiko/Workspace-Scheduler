@@ -18,12 +18,5 @@ namespace MongoDBWebAPI.Services
 			_workspaceTypes = database.GetCollection<WorkspaceType>(settings.WorkspaceTypeCollectionName);
 		}
 
-		// Test to get all workspace types
-		public List<WorkspaceType> Get()
-		{
-			List<WorkspaceType> workspaceTypes;
-			workspaceTypes = _workspaceTypes.Find(wrktype => true).ToList();
-			return workspaceTypes;
-		}
 	}
 }

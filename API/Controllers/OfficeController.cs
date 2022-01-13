@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDBWebAPI.Models;
 using MongoDBWebAPI.Services;
 
-// FILE ONLY BEING USED FOR TESTING
-
 namespace MongoDBWebAPI.Controllers
 {
 	[Route("api/[controller]")]
@@ -22,7 +20,7 @@ namespace MongoDBWebAPI.Controllers
 			_officeService = officeService;
 		}
 
-		// Route to get all reservations
+		// GET all offices
 		[HttpGet]
 		public ActionResult<List<Office>> Get() => _officeService.Get();
 	}

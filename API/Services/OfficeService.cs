@@ -18,7 +18,7 @@ namespace MongoDBWebAPI.Services
 			_offices = database.GetCollection<Office>(settings.OfficeCollectionName);
 		}
 
-		// Test to get all offices
+		// GET all offices
 		public List<Office> Get()
 		{
 			List<Office> offices;

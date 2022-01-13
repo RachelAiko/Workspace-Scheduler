@@ -18,11 +18,12 @@ namespace MongoDBWebAPI.Services
 			_workspaces = database.GetCollection<Workspace>(settings.WorkspaceCollectionName);
 		}
 
-		// Test to get all workspaces
-		public List<Workspace> Get()
+		// GET all workspaces for specific office (protected general)
+		// pass in jwt, office ID
+		public List<Workspace> Get(int _officeID)
 		{
 			List<Workspace> workspaces;
-			workspaces = _workspaces.Find(wrk => true).ToList();
+			workspaces = _workspaces.Find(wrk => wrk.OfficeID == _officeID).ToList();
 			return workspaces;
 		}
 	}

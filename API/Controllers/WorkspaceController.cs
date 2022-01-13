@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDBWebAPI.Models;
 using MongoDBWebAPI.Services;
 
-// FILE ONLY BEING USED FOR TESTING
-
 namespace MongoDBWebAPI.Controllers
 {
 	[Route("api/[controller]")]
@@ -22,8 +20,13 @@ namespace MongoDBWebAPI.Controllers
 			_workspaceService = workspaceService;
 		}
 
-		// Route to get all workspaces
-		[HttpGet]
-		public ActionResult<List<Workspace>> Get() => _workspaceService.Get();
+		// GET all workspaces for specific office (protected general)
+		// pass in jwt, office ID
+		[HttpGet("{officeID}")]
+		public ActionResult<List<Workspace>> Get(int officeID)
+		{
+			var wrk = _workspaceService.Get(officeID);
+			return wrk;
+		}
 	}
 }

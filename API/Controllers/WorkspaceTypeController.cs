@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDBWebAPI.Models;
 using MongoDBWebAPI.Services;
 
-// FILE ONLY BEING USED FOR TESTING
-
 namespace MongoDBWebAPI.Controllers
 {
 	[Route("api/[controller]")]
@@ -22,8 +20,7 @@ namespace MongoDBWebAPI.Controllers
 			_workspaceTypeService = workspaceTypeService;
 		}
 
-		// Route to get all workspace types
-		[HttpGet]
-		public ActionResult<List<WorkspaceType>> Get() => _workspaceTypeService.Get();
+		// [HttpGet]
+		// public ActionResult<List<WorkspaceType>> Get() => _workspaceTypeService.Get();
 	}
 }
