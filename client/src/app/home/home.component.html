@@ -10,6 +10,10 @@
     Dashboard
 </button>
 
+<button mat-raised-button color="primary" routerLink="/forgot-password">
+    Forgot Password?
+</button>
+
 <div *ngIf="(afAuth.user | async)">
     User is logged in
 

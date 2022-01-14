@@ -51,4 +51,19 @@ export class AuthService {
                     return { isValid: false, message: error.message };
             });
     }
+
+    resetPassword(email: string): Promise<any> {
+        return this.afAuth.sendPasswordResetEmail(email)
+            .then(() => {
+                console.log('Auth Service: reset password success');
+                // this.router.navigate(['/amount']);
+            })
+            .catch(error => {
+                console.log('Auth Service: reset password error...');
+                console.log(error.code);
+                console.log(error)
+                if (error.code)
+                    return error;
+            });
+    }
 }

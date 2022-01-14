@@ -20,6 +20,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+
 @NgModule({
   declarations: [
     // when adding components make sure to put them here
@@ -28,6 +31,7 @@ import { MatInputModule } from '@angular/material/input';
     SignupComponent,
     LoginComponent,
     DashboardComponent,
+    ForgotPasswordComponent,
     //ServerComponent
   ],
   imports: [
@@ -42,7 +46,8 @@ import { MatInputModule } from '@angular/material/input';
     MatButtonModule,
     MatCardModule,
     MatInputModule,
-
+    MatListModule,
+    
     FormsModule,
     ReactiveFormsModule,
 
