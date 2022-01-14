@@ -35,6 +35,12 @@ namespace MongoDBWebAPI.Controllers
 
 		// GET all reservations for specific user (protected per user/role)
 		// pass in jwt (user)
+		[HttpGet("{userID}")]
+		public ActionResult<List<Reservation>> GetReservationsByUser(string userID)
+		{
+			var rsv = _reservationService.GetReservationsByUser(userID);
+			return rsv;
+		}
 
 		// POST a new reservation for specific user (protected per user/role)
 		// pass in jwt (user), date, space number, office
@@ -49,5 +55,11 @@ namespace MongoDBWebAPI.Controllers
 
 		// DELETE a reservation for specific user (protected per user/role)
 		// pass in jwt (user), reservationID
+		[HttpDelete("{userID}")]
+		public ActionResult<Reservation> DeleteReservation(string userID)
+		{
+			var rsv = _reservationService.DeleteReservation(userID);
+			return rsv;
+		}
 	}
 }

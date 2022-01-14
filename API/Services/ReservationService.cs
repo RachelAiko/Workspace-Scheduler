@@ -31,6 +31,12 @@ namespace MongoDBWebAPI.Services
 		// TODO
 		// GET all reservations for specific user (protected per user/role)
 		// pass in jwt (user)
+		public List<Reservation> GetReservationsByUser(string _userID)
+		{
+			List<Reservation> reservations;
+			reservations = _reservations.Find(rsv => rsv.ReservedForID == _userID).ToList();
+			return reservations;
+		}
 
 		// POST a new reservation for specific user (protected per user/role)
 		// pass in jwt (user), date, space number, office
@@ -53,5 +59,11 @@ namespace MongoDBWebAPI.Services
 		// TODO
 		// DELETE a reservation for specific user (protected per user/role)
 		// pass in jwt (user), reservationID
+		public Reservation DeleteReservation(string _reservationID)
+		{
+			Reservation reservation;
+			reservation = _reservations.FindOneAndDelete(rsv => rsv.Id == _reservationID);
+			return reservation;
+		}
 	}
 }
