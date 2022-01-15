@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,10 +19,10 @@ namespace MongoDBWebAPI.Services
 
 		// GET all workspaces for specific office (protected general)
 		// pass in jwt, office ID
-		public List<Workspace> Get(int _officeID)
+		public async Task<List<Workspace>> Get(string _officeID)
 		{
 			List<Workspace> workspaces;
-			workspaces = _workspaces.Find(wrk => wrk.OfficeID == _officeID).ToList();
+			workspaces = await _workspaces.Find(wrk => wrk.Office.Id == _officeID).ToListAsync();
 			return workspaces;
 		}
 	}

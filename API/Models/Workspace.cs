@@ -9,7 +9,7 @@ namespace MongoDBWebAPI.Models
 		[BsonRepresentation(BsonType.ObjectId)]
 		public string Id { get; set; }
 		public int SpaceNumber { get; set; }
-		public int TypeID { get; set; }
-		public int OfficeID { get; set; }
+		public Office Office { get; set; }
+		public WorkspaceType WorkspaceType { get; set; }
 	}
 }

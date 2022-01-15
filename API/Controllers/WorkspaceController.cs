@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDBWebAPI.Models;
 using MongoDBWebAPI.Services;
@@ -23,9 +20,9 @@ namespace MongoDBWebAPI.Controllers
 		// GET all workspaces for specific office (protected general)
 		// pass in jwt, office ID
 		[HttpGet("{officeID}")]
-		public ActionResult<List<Workspace>> Get(int officeID)
+		public async Task<ActionResult<List<Workspace>>> Get(string officeID)
 		{
-			var wrk = _workspaceService.Get(officeID);
+			var wrk = await _workspaceService.Get(officeID);
 			return wrk;
 		}
 	}

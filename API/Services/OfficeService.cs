@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,10 +18,10 @@ namespace MongoDBWebAPI.Services
 		}
 
 		// GET all offices
-		public List<Office> Get()
+		public async Task<List<Office>> GetAll()
 		{
 			List<Office> offices;
-			offices = _offices.Find(ofc => true).ToList();
+			offices = await _offices.Find(ofc => true).ToListAsync();
 			return offices;
 		}
 	}
