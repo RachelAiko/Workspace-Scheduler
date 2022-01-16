@@ -14,11 +14,14 @@ export class DashboardComponent implements OnInit {
   selectedOffice: any;
   workspaces: any;
   selectedWorkspace: any;
+  selectedDate: any;
+  reservations: any;
 
   constructor(public afAuth: AngularFireAuth, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.getAllOffices();
+    this.selectedDate = '2022-01-20';
   }
 
   logout(): void {
@@ -43,6 +46,11 @@ export class DashboardComponent implements OnInit {
     this.getWorkspaces(this.selectedOffice.id);
   }
 
+  selectDate(data: any) {
+    this.selectedDate = data.date;
+    this.getReservationsByDate(this.selectedDate, this.selectedOffice.id);
+  }
+
   getWorkspaces(officeID: string) {
     this.http.get('https://localhost:5001/api/workspace/' + officeID).subscribe(
       (response) => {
@@ -52,5 +60,36 @@ export class DashboardComponent implements OnInit {
         console.log(error);
       }
     );
+    this.getReservationsByDate(this.selectedDate, this.selectedOffice.id);
+  }
+
+  getReservationsByDate(date: string, officeID: string) {
+    this.http
+      .get(
+        'https://localhost:5001/api/reservation/ByDate/' + date + '/' + officeID
+      )
+      .subscribe(
+        (response) => {
+          this.reservations = response;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  checkAvailability(workspace: any) {
+    if (!this.reservations) return 'Loading';
+    for (let reservation of this.reservations) {
+      if (reservation.workspace.id == workspace.id) {
+        return (
+          'Reserved By ' +
+          reservation.reservedFor.firstName +
+          ' ' +
+          reservation.reservedFor.lastName
+        );
+      }
+    }
+    return 'Open';
   }
 }
