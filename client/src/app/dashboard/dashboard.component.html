@@ -1,0 +1,138 @@
+<!-- html file for the header component. Contains navbar -->
+
+
+<!-- ------------------------Navbar ------------------------------------------------------------>
+
+<nav class="navbar navbar-expand-lg navbar-light">
+	<div class="container-fluid gradient-custom-2 ">
+		<!-- <a class="navbar-brand" style="background-color:#f3a442" href="#">
+			<img src="https://images.ctfassets.net/xj0skx6m69u2/cFRNy2dkU6bRc2iRmk7tF/6f1fc904dea9217c746c0b5cfd9eaa32/Logo_CallMiner_Color.svg"
+				alt=""></a> -->
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<li class="nav-item">
+					<a class="nav-link active" href="#" aria-current="page" href="#">Home</a>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false">
+						Office Location
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<li><a class="dropdown-item" href="#">Fort Myers, FL</a></li>
+						<li><a class="dropdown-item" href="#">Boston, MA (Coming Soon)</a></li>
+					</ul>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false">
+						Reservations
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<li><a class="dropdown-item" href="#">New Reservation</a></li>
+						<li><a class="dropdown-item" href="#">View/Manage Reservation</a></li>
+					</ul>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false">
+						<i class="fas fa-user"> <img
+								src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
+								width="30" height="30" class="rounded-circle"></i> Profile </a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<li><a class="dropdown-item" href="#">My Account</a></li>
+						<li><a class="dropdown-item" href="#">Manage Reservations</a></li>
+						<button mat-raised-button color="primary" style="float:right" (click)="logout()">
+							Log out
+						</button>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-3 sidebar"><h2>Dashboard</h2>
+			<select class="browser-default custom-select" (change)="selectOffice($event)">
+				<option *ngFor="let office of offices;let indexOfOffice=index;"
+					[attr.selected]="office == 0 ? true : null" value="{{ indexOfOffice }}">{{
+					office.name }}</option>
+			</select>
+
+			<form #dateselect="ngForm" (ngSubmit)="selectDate(dateselect.value)">
+
+				<input type="text" name="date" placeholder="yyyy-mm-dd" ngModel>
+
+				<br />
+
+				<input type="submit" value="submit">
+
+			</form>
+
+			<h2>Workspaces | {{ selectedDate }}</h2>
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>Workspace</th>
+						<th>Office Location</th>
+						<th>Availability</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr mdbTableCol *ngFor="let workspace of workspaces">
+						<th scope="row">{{workspace.workspaceType.name}} {{workspace.spaceNumber}}</th>
+						<td>{{workspace.office.name}}</td>
+						<td>{{checkAvailability(workspace)}}</td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+		<div class="col-9 main-content" style="text-align: center;">
+			<img src="https://i.pinimg.com/736x/bd/d6/f5/bdd6f5247dbea0e5eedf33fe8cc491ee--office-layout-plan-office-floor-plan.jpg"
+				alt="" style="size:50%">
+		</div>
+	</div>
+
+
+</div>
+
+
+<!-- <select class="browser-default custom-select" (change)="selectOffice($event)">
+	<option *ngFor="let office of offices;let indexOfOffice=index;" [attr.selected]="office == 0 ? true : null"
+		value="{{ indexOfOffice }}">{{
+		office.name }}</option>
+</select>
+
+<form #dateselect="ngForm" (ngSubmit)="selectDate(dateselect.value)">
+
+	<input type="text" name="date" placeholder="yyyy-mm-dd" ngModel>
+
+	<br />
+
+	<input type="submit" value="submit">
+
+</form>
+
+<h2>Workspaces | {{ selectedDate }}</h2>
+<table class="table table-striped table-hover">
+	<thead>
+		<tr>
+			<th>Workspace</th>
+			<th>Office Location</th>
+			<th>Availability</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr mdbTableCol *ngFor="let workspace of workspaces">
+			<th scope="row">{{workspace.workspaceType.name}} {{workspace.spaceNumber}}</th>
+			<td>{{workspace.office.name}}</td>
+			<td>{{checkAvailability(workspace)}}</td>
+		</tr>
+	</tbody>
+</table> -->

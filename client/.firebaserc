@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "workspace-scheduler": {
+      "hosting": {
+        "my-first-project": [
+          "workspace-scheduler"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "workspace-scheduler"
+  }
+}
