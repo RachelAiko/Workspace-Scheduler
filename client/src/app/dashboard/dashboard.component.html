@@ -109,30 +109,20 @@
 		office.name }}</option>
 </select>
 
-<form #dateselect="ngForm" (ngSubmit)="selectDate(dateselect.value)">
-
-	<input type="text" name="date" placeholder="yyyy-mm-dd" ngModel>
-
-	<br />
-
-	<input type="submit" value="submit">
-
-</form>
-
-<h2>Workspaces | {{ selectedDate }}</h2>
+<h2>Workspaces</h2>
 <table class="table table-striped table-hover">
 	<thead>
 		<tr>
-			<th>Workspace</th>
+			<th>Workspace Number</th>
+			<th>Workspace Type</th>
 			<th>Office Location</th>
-			<th>Availability</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr mdbTableCol *ngFor="let workspace of workspaces">
-			<th scope="row">{{workspace.workspaceType.name}} {{workspace.spaceNumber}}</th>
+			<th scope="row">{{workspace.spaceNumber}}</th>
+			<td>{{workspace.workspaceType.name}}</td>
 			<td>{{workspace.office.name}}</td>
-			<td>{{checkAvailability(workspace)}}</td>
 		</tr>
 	</tbody>
 </table> -->
