@@ -40,7 +40,7 @@ export class DashboardComponent implements OnInit {
           user.getIdToken().then((idToken) => {
             this.headers = new HttpHeaders()
               .set('content-type', 'application/json')
-              .set('Authorization', idToken);
+              .set('Authorization', 'Bearer ' + idToken);
             resolve();
           });
         }
