@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Component, OnInit } from '@angular/core';
 
@@ -10,6 +10,8 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
+  baseURL: any;
+  headers: any;
   offices: any;
   selectedOffice: any;
   workspaces: any;
@@ -17,9 +19,12 @@ export class DashboardComponent implements OnInit {
   selectedDate: any;
   reservations: any;
 
-  constructor(public afAuth: AngularFireAuth, private http: HttpClient) {}
+  constructor(public afAuth: AngularFireAuth, private http: HttpClient) {
+    this.baseURL = 'https://localhost:5001/api/';
+  }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    await this.SetHeaders();
     this.getAllOffices();
     this.selectedDate = '2022-01-20';
   }
@@ -28,8 +33,23 @@ export class DashboardComponent implements OnInit {
     this.afAuth.signOut();
   }
 
+  SetHeaders(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.afAuth.onAuthStateChanged((user) => {
+        if (user) {
+          user.getIdToken().then((idToken) => {
+            this.headers = new HttpHeaders()
+              .set('content-type', 'application/json')
+              .set('Authorization', idToken);
+            resolve();
+          });
+        }
+      });
+    });
+  }
+
   getAllOffices() {
-    this.http.get('https://localhost:5001/api/office').subscribe(
+    this.http.get(this.baseURL + 'office', { headers: this.headers }).subscribe(
       (response) => {
         this.offices = response;
         this.selectedOffice = this.offices[0];
@@ -52,22 +72,26 @@ export class DashboardComponent implements OnInit {
   }
 
   getWorkspaces(officeID: string) {
-    this.http.get('https://localhost:5001/api/workspace/' + officeID).subscribe(
-      (response) => {
-        this.workspaces = response;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.http
+      .get(this.baseURL + 'workspace/' + officeID, {
+        headers: this.headers,
+      })
+      .subscribe(
+        (response) => {
+          this.workspaces = response;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     this.getReservationsByDate(this.selectedDate, this.selectedOffice.id);
   }
 
   getReservationsByDate(date: string, officeID: string) {
     this.http
-      .get(
-        'https://localhost:5001/api/reservation/ByDate/' + date + '/' + officeID
-      )
+      .get(this.baseURL + 'reservation/ByDate/' + date + '/' + officeID, {
+        headers: this.headers,
+      })
       .subscribe(
         (response) => {
           this.reservations = response;
