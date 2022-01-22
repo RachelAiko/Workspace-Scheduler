@@ -23,8 +23,7 @@ namespace MongoDBWebAPI.Services
 		{
 			User newUser = new User();
 			newUser.AuthID = _authID;
-			newUser.FirstName = _firstName;
-			newUser.LastName = _lastName;
+			newUser.Name = _firstName;
 			newUser.Email = _email;
 
 			await _users.InsertOneAsync(newUser);
