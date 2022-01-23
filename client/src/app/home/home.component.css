@@ -24,3 +24,8 @@ button {
       border-bottom-right-radius: .5rem;
     }
   }
+
+  
+.mat-card{
+	background-color: white;
+}
