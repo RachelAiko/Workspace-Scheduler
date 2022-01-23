@@ -40,7 +40,7 @@ export class DashboardComponent implements OnInit {
           user.getIdToken().then((idToken) => {
             this.headers = new HttpHeaders()
               .set('content-type', 'application/json')
-              .set('Authorization', 'Bearer ' + idToken);
+              .set('Authorization', idToken);
             resolve();
           });
         }
@@ -106,12 +106,7 @@ export class DashboardComponent implements OnInit {
     if (!this.reservations) return 'Loading';
     for (let reservation of this.reservations) {
       if (reservation.workspace.id == workspace.id) {
-        return (
-          'Reserved By ' +
-          reservation.reservedFor.firstName +
-          ' ' +
-          reservation.reservedFor.lastName
-        );
+        return 'Reserved By ' + reservation.reservedFor.Name;
       }
     }
     return 'Open';

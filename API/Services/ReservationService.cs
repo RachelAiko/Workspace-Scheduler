@@ -22,8 +22,30 @@ namespace MongoDBWebAPI.Services
 			_workspaces = database.GetCollection<Workspace>(settings.WorkspaceCollectionName);
 		}
 
+		public async Task<bool> IsAdmin(string _userID)
+		{
+			var admin = await _users.Find(usr => usr.AuthID == _userID && usr.IsAdmin == true).SingleOrDefaultAsync(); ;
+			if (admin != null) return true;
+			else return false;
+		}
+
+		// GET all reservations for current user (protected per user/role)
+		public async Task<List<Reservation>> GetReservations(string _userID)
+		{
+			List<Reservation> reservations;
+			reservations = await _reservations.Find(rsv => rsv.ReservedFor.AuthID == _userID).ToListAsync();
+			return reservations;
+		}
+
+		// GET all reservations for specific user (protected per user/role)
+		public async Task<List<Reservation>> GetReservationsForOtherUser(string _userID, string _requestedID)
+		{
+			List<Reservation> reservations;
+			reservations = await _reservations.Find(rsv => rsv.ReservedFor.AuthID == _userID).ToListAsync();
+			return reservations;
+		}
+
 		// GET all reservations for specific date (protected general)
-		// pass in jwt (user), date, office ID
 		public async Task<List<Reservation>> GetReservationsByDate(string _date, string _officeID)
 		{
 			List<Reservation> reservations;
@@ -31,22 +53,12 @@ namespace MongoDBWebAPI.Services
 			return reservations;
 		}
 
-		// GET all reservations for specific user (protected per user/role)
-		// pass in jwt (user)
-		public async Task<List<Reservation>> GetReservationsByUser(string _userID)
-		{
-			List<Reservation> reservations;
-			reservations = await _reservations.Find(rsv => rsv.ReservedFor.AuthID == _userID).ToListAsync();
-			return reservations;
-		}
-
 		// POST a new reservation for specific user (protected per user/role)
-		// pass in jwt (user), date, reservedForID, workspace ID
-		public async Task<Reservation> CreateReservation(string _date, string _creatorID, string _reservedForID, string _workspaceID)
+		public async Task<Reservation> CreateReservation(string _creatorID, string _date, string _reservedForID, string _workspaceID)
 		{
 			Reservation newReservation = new Reservation();
-			newReservation.Date = _date;
 			newReservation.Creator = await _users.Find(usr => usr.AuthID == _creatorID).SingleOrDefaultAsync();
+			newReservation.Date = _date;
 			newReservation.ReservedFor = await _users.Find(usr => usr.AuthID == _reservedForID).SingleOrDefaultAsync();
 			newReservation.Workspace = await _workspaces.Find(wrk => wrk.Id == _workspaceID).SingleOrDefaultAsync();
 			await _reservations.InsertOneAsync(newReservation);
@@ -54,7 +66,6 @@ namespace MongoDBWebAPI.Services
 		}
 
 		// DELETE a reservation for specific user (protected per user/role)
-		// pass in jwt (user), reservationID
 		// **FindOneAndDelete returns deleted document, DeleteOne deletes single document
 		public async Task<Reservation> DeleteReservation(string _reservationID)
 		{

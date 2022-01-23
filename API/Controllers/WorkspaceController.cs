@@ -1,3 +1,4 @@
+using static API.Helpers.AuthHelper;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -18,10 +19,10 @@ namespace MongoDBWebAPI.Controllers
 		}
 
 		// GET all workspaces for specific office (protected general)
-		// pass in jwt, office ID
 		[HttpGet("{officeID}")]
 		public async Task<ActionResult<List<Workspace>>> Get(string officeID)
 		{
+			AuthorizeRequest(Request);
 			var wrk = await _workspaceService.Get(officeID);
 			return wrk;
 		}

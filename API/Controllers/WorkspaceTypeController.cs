@@ -1,3 +1,4 @@
+using static API.Helpers.AuthHelper;
 using Microsoft.AspNetCore.Mvc;
 using MongoDBWebAPI.Services;
 
