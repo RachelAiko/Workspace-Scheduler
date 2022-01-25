@@ -1,7 +1,9 @@
+using static API.Helpers.AuthHelper;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MongoDBWebAPI.Models;
 using MongoDBWebAPI.Services;
+using System;
 
 namespace MongoDBWebAPI.Controllers
 {
@@ -17,11 +19,13 @@ namespace MongoDBWebAPI.Controllers
 		}
 
 		// POST a new user(protected per user/role)
-		// pass in jwt (user)
-		[HttpPost("{authID}/{firstName}/{lastName}/{email}")]
-		public async Task<ActionResult<User>> CreateUser(string authID, string firstName, string lastName, string email)
+		[HttpPost]
+		public async Task<ActionResult<User>> CreateUser([FromBody] string name)
 		{
-			var usr = await _userService.CreateUser(authID, firstName, lastName, email);
+			var user = await AuthorizeUser(Request);
+			string authID = user[0];
+			string email = user[1];
+			var usr = await _userService.CreateUser(name, authID, email);
 			return usr;
 		}
 	}

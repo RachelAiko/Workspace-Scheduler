@@ -18,7 +18,6 @@ namespace MongoDBWebAPI.Services
 		}
 
 		// GET all workspaces for specific office (protected general)
-		// pass in jwt, office ID
 		public async Task<List<Workspace>> Get(string _officeID)
 		{
 			List<Workspace> workspaces;

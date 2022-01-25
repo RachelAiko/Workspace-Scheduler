@@ -18,15 +18,13 @@ namespace MongoDBWebAPI.Services
 		}
 
 		// POST a new user (protected per user/role)
-		// pass in jwt (user)
-		public async Task<User> CreateUser(string _authID, string _firstName, string _lastName, string _email)
+		public async Task<User> CreateUser(string _name, string _authID, string _email)
 		{
 			User newUser = new User();
+			newUser.Name = _name;
 			newUser.AuthID = _authID;
-			newUser.FirstName = _firstName;
-			newUser.LastName = _lastName;
 			newUser.Email = _email;
-
+			// add code to not add duplicate users
 			await _users.InsertOneAsync(newUser);
 			return newUser;
 		}
