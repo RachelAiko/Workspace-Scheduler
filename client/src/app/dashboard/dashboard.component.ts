@@ -119,10 +119,12 @@ export class DashboardComponent implements OnInit {
       })
       .subscribe(
         (response) => {
+					console.log('Reservation created in MongoDB');
           console.log(response);
 					this.checkAvailability(workspace);
         },
         (error) => {
+					console.log('Error: Reservation NOT created in MongoDB');
           console.log(error);
         }
       );
