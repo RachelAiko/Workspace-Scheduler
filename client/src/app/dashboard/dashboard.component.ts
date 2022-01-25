@@ -106,9 +106,25 @@ export class DashboardComponent implements OnInit {
     if (!this.reservations) return 'Loading';
     for (let reservation of this.reservations) {
       if (reservation.workspace.id == workspace.id) {
-        return 'Reserved By ' + reservation.reservedFor.Name;
+        return 'Reserved For ' + reservation.reservedFor.name;
       }
     }
     return 'Open';
   }
+
+	reserveWorkspace(workspace: any) {
+		this.http
+      .post(this.baseURL + 'reservation/' + this.selectedDate + '/' + workspace.id, null, {
+        headers: this.headers,
+      })
+      .subscribe(
+        (response) => {
+          console.log(response);
+					this.checkAvailability(workspace);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+	}
 }

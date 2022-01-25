@@ -90,6 +90,7 @@
 						<th scope="row">{{workspace.workspaceType.name}} {{workspace.spaceNumber}}</th>
 						<td>{{workspace.office.name}}</td>
 						<td>{{checkAvailability(workspace)}}</td>
+						<td> <input type="button" value="Reserve" (click)="reserveWorkspace(workspace)"/></td>
 					</tr>
 				</tbody>
 			</table>
