@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MongoDBWebAPI.Models;
 using MongoDBWebAPI.Services;
+using System;
+using System.Net;
 
 namespace MongoDBWebAPI.Controllers
 {
@@ -23,9 +25,15 @@ namespace MongoDBWebAPI.Controllers
 		public async Task<ActionResult<List<Reservation>>> GetReservations()
 		{
 			var user = await AuthorizeUser(Request);
+			if (user != null)
+			{
 			string userID = user[0];
 			var rsv = await _reservationService.GetReservations(userID);
 			return rsv;
+			} else 
+			{
+				return Unauthorized();
+			}
 		}
 
 		// GET all reservations for specific user (protected per user/role)
@@ -33,13 +41,28 @@ namespace MongoDBWebAPI.Controllers
 		public async Task<ActionResult<List<Reservation>>> GetReservationsForOtherUser(string requestedID)
 		{
 			var user = await AuthorizeUser(Request);
-			string userID = user[0];
-			if (!await _reservationService.IsAdmin(userID))
+			if (user != null)
+			{
+				string userID = user[0];
+				if (!await _reservationService.IsAdmin(userID))
+				{
+					return Unauthorized();
+				}
+				try
+				{
+					var rsv = await _reservationService.GetReservations(requestedID);
+					return rsv;
+				}
+				catch(Exception e)
+				{
+					//Exception e is invalid requestedID or null requestedID
+					return null;
+				}
+			} else 
 			{
 				return Unauthorized();
 			}
-			var rsv = await _reservationService.GetReservations(requestedID);
-			return rsv;
+			
 		}
 
 		// GET all reservations for specific date (protected general)
