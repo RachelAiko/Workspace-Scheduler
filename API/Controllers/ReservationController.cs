@@ -52,11 +52,12 @@ namespace MongoDBWebAPI.Controllers
 		}
 
 		// POST a new reservation for specific user (protected per user/role)
-		[HttpPost("{date}/{reservedForID}/{workspaceID}")]
-		public async Task<ActionResult<Reservation>> CreateReservation(string date, string reservedForID, string workspaceID)
+		[HttpPost("{date}/{workspaceID}")]
+		public async Task<ActionResult<Reservation>> CreateReservation(string date, string workspaceID)
 		{
 			var user = await AuthorizeUser(Request);
 			string creatorID = user[0];
+			string reservedForID = creatorID;
 			var rsv = await _reservationService.CreateReservation(creatorID, date, reservedForID, workspaceID);
 			return rsv;
 		}
