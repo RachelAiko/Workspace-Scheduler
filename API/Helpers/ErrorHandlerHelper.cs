@@ -7,6 +7,16 @@ namespace API.Helpers
 {
     public class ErrorHandlerHelper
     {
-        
+        public void DefineError()
+        {
+            string statusCode;
+            string errorMessage;
+        }
+        public void DefineError(Exception e)
+        {
+            string statusCode;
+            string errorMessage;
+            
+        }
     }
 }

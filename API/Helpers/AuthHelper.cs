@@ -10,43 +10,21 @@ namespace API.Helpers
 	{
 		public async static void AuthorizeRequest(HttpRequest request)
 		{
-				//request.Headers.TryGetValue("Authorization", out var idToken);
-				if (request.Headers.TryGetValue("Authorization", out var idToken))
-				{
-					try
-					{
-						FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance
-						.VerifyIdTokenAsync(idToken);
-					}
-					catch (Exception e)
-					{
-						//Exception e is invalid 64 bit token or if Key 'Authorization' exists but has empty value
-					}
-					
-				}
+			request.Headers.TryGetValue("Authorization", out var idToken);
+			FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance
+			.VerifyIdTokenAsync(idToken);
 				
 		}
 
 		public async static Task<string[]> AuthorizeUser(HttpRequest request)
 		{
-				//request.Headers.TryGetValue("Authorization", out var idToken);
-				if (request.Headers.TryGetValue("Authorization", out var idToken))
-				{
-					try
-					{
-						FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(idToken);
-						decodedToken.Claims.TryGetValue("email", out var userEmail);
-						string[] decodedUser = { decodedToken.Uid, userEmail.ToString() };
-						Console.WriteLine(request);
-						return decodedUser;
-					}
-					catch(Exception e)
-					{
-						//Exception e is invalid 64 bit token or if Key 'Authorization' exists but has empty value
-						
-					}
-				}
-				return null;
+			request.Headers.TryGetValue("Authorization", out var idToken);
+			FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(idToken);
+			decodedToken.Claims.TryGetValue("email", out var userEmail);
+			string[] decodedUser = { decodedToken.Uid, userEmail.ToString() };
+			Console.WriteLine(request);
+			return decodedUser;
+			//Exception e is invalid 64 bit token or if Key 'Authorization' exists but has empty value
 		}
 	}
 }
