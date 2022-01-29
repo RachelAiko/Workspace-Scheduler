@@ -2,21 +2,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Helpers
 {
     public class ErrorHandlerHelper
     {
-        public void DefineError()
+        public void HandleError()
         {
             string statusCode;
             string errorMessage;
         }
-        public void DefineError(Exception e)
+        /*
+        public ObjectResult HandleError(Exception e)
         {
-            string statusCode;
-            string errorMessage;
+            if (e.Source == "FirebaseAdmin")
+            {
+                return UnauthorizedObjectResult("Unauthorized: " + e.Message);
+            }
             
         }
+        */
     }
 }

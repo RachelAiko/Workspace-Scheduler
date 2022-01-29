@@ -34,7 +34,7 @@ namespace MongoDBWebAPI.Controllers
 			}
 			catch (Exception e)
 			{
-				return Unauthorized();
+				return HandleError(e);
 			}	
 		}
 
@@ -79,5 +79,14 @@ namespace MongoDBWebAPI.Controllers
 			var rsv = await _reservationService.DeleteReservation(reservationID);
 			return rsv;
 		}
+
+		public ObjectResult HandleError(Exception e)
+        {
+            if (e.Source == "FirebaseAdmin")
+            {
+                return Unauthorized("Unauthorized: " + e.Message);
+            }
+            return null;
+        }
 	}
 }
