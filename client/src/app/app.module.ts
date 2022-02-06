@@ -14,14 +14,16 @@ import { AngularFireModule } from '@angular/fire/compat';
 
 import { HomeComponent } from './home/home.component';
 import { SignupComponent } from './signup/signup.component';
-//import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+
 
 @NgModule({
   declarations: [
@@ -29,9 +31,9 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     AppComponent,
     HomeComponent,
     SignupComponent,
-    //LoginComponent,
     DashboardComponent,
     ForgotPasswordComponent,
+   
     //ServerComponent
   ],
   imports: [
@@ -47,6 +49,9 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     MatCardModule,
     MatInputModule,
     MatListModule,
+    MatDatepickerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     
     FormsModule,
     ReactiveFormsModule,
