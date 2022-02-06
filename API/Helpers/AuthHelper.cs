@@ -24,7 +24,6 @@ namespace API.Helpers
 			string[] decodedUser = { decodedToken.Uid, userEmail.ToString() };
 			Console.WriteLine(request);
 			return decodedUser;
-			//Exception e is invalid 64 bit token or if Key 'Authorization' exists but has empty value
 		}
 	}
 }
