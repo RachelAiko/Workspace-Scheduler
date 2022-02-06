@@ -25,6 +25,7 @@
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<li><a class="dropdown-item" href="#">Fort Myers, FL</a></li>
 						<li><a class="dropdown-item" href="#">Boston, MA (Coming Soon)</a></li>
+						
 					</ul>
 				</li>
 				<li class="nav-item dropdown">
@@ -46,97 +47,81 @@
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<li><a class="dropdown-item" href="#">My Account</a></li>
 						<li><a class="dropdown-item" href="#">Manage Reservations</a></li>
-						<button mat-raised-button color="primary" style="float:right" (click)="logout()">
-							Log out
-						</button>
+						
 					</ul>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link active" href="#" aria-current="page" href="#" (click)="logout()">Log out</a>
+			
 				</li>
 			</ul>
 		</div>
+		
+		<!-- CallMiner Logo -->
+		<div class="text-right">
+			<a class="navbar-brand" href="#">
+				<img src="https://images.ctfassets.net/xj0skx6m69u2/cFRNy2dkU6bRc2iRmk7tF/6f1fc904dea9217c746c0b5cfd9eaa32/Logo_CallMiner_Color.svg"
+					alt=""></a>
+		</div>
+		
 	</div>
 </nav>
 
+
+<!-- Dashboard Content -->
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-3 sidebar">
-			<h2>Dashboard</h2>
-			<select class="browser-default custom-select" (change)="selectOffice($event)">
-				<option *ngFor="let office of offices;let indexOfOffice=index;" [attr.selected]="office == 0 ? true : null"
-					value="{{ indexOfOffice }}">{{
-					office.name }}</option>
-			</select>
+			<h2>Reservation Dashboard</h2>
+			<label for="reservationlocation">Office Location</label>
+				<select class="browser-default custom-select" (change)="selectOffice($event)">
+					<option *ngFor="let office of offices;let indexOfOffice=index;"
+						[attr.selected]="office == 0 ? true : null" value="{{ indexOfOffice }}">{{
+						office.name }}</option>
+				</select>
+			<br>
 
 			<form #dateselect="ngForm" (ngSubmit)="selectDate(dateselect.value)">
-
-				<input type="text" name="date" placeholder="yyyy-mm-dd" ngModel>
-
-				<br />
-
-				<input type="submit" value="submit">
-
+				
+				<label for="reservationdate">Date of Reservation</label>
+				<input type="date" name="date" id="reservationdate" ngModel>
+				<input type="submit" value="submit"> 
+				
+				
 			</form>
+		</div>
+	</div>
+	<br />
 
-			<h2>Workspaces | {{ selectedDate }}</h2>
-			<table class="table table-striped table-hover">
+
+	<!-- Main Content Section (where workspace view will go)-->
+	<div class="table-responsive">	
+			<table class="table table-bordered">
 				<thead>
 					<tr>
-						<th>Workspace</th>
-						<th>Office Location</th>
-						<th>Availability</th>
+						<th scope="col">Workspace</th>
+						<th scope="col">Availability <br> {{ selectedDate }} </th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr mdbTableCol *ngFor="let workspace of workspaces">
 						<th scope="row">{{workspace.workspaceType.name}} {{workspace.spaceNumber}}</th>
-						<td>{{workspace.office.name}}</td>
-						<td>{{checkAvailability(workspace)}}</td>
-						<td> <input type="button" value="Reserve" (click)="reserveWorkspace(workspace)"/></td>
+						<td>{{checkAvailability(workspace)}}
+							<br>
+							<input type="button" value="Reserve" (click)="reserveWorkspace(workspace)"/>
+						</td>
+						
 					</tr>
 				</tbody>
 			</table>
 
-		</div>
-		<div class="col-9 main-content" style="text-align: center;">
-			<img
-				src="https://i.pinimg.com/736x/bd/d6/f5/bdd6f5247dbea0e5eedf33fe8cc491ee--office-layout-plan-office-floor-plan.jpg"
-				alt="" style="size:50%">
-		</div>
 	</div>
+		
+	
 
 
 </div>
 
 
-<!-- <select class="browser-default custom-select" (change)="selectOffice($event)">
-	<option *ngFor="let office of offices;let indexOfOffice=index;" [attr.selected]="office == 0 ? true : null"
-		value="{{ indexOfOffice }}">{{
-		office.name }}</option>
-</select>
 
-<form #dateselect="ngForm" (ngSubmit)="selectDate(dateselect.value)">
 
-	<input type="text" name="date" placeholder="yyyy-mm-dd" ngModel>
-
-	<br />
-
-	<input type="submit" value="submit">
-
-</form>
-
-<h2>Workspaces | {{ selectedDate }}</h2>
-<table class="table table-striped table-hover">
-	<thead>
-		<tr>
-			<th>Workspace</th>
-			<th>Office Location</th>
-			<th>Availability</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr mdbTableCol *ngFor="let workspace of workspaces">
-			<th scope="row">{{workspace.workspaceType.name}} {{workspace.spaceNumber}}</th>
-			<td>{{workspace.office.name}}</td>
-			<td>{{checkAvailability(workspace)}}</td>
-		</tr>
-	</tbody>
-</table> -->

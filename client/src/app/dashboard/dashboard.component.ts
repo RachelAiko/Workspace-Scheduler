@@ -1,7 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
 import { Component, OnInit } from '@angular/core';
-
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Component({
@@ -18,6 +16,10 @@ export class DashboardComponent implements OnInit {
   selectedWorkspace: any;
   selectedDate: any;
   reservations: any;
+  
+  today = new Date();
+  dtae = this.today.getFullYear()+'-'+(this.today.getMonth()+1)+'-'+this.today.getDate();
+
 
   constructor(public afAuth: AngularFireAuth, private http: HttpClient) {
     this.baseURL = 'https://localhost:5001/api/';
