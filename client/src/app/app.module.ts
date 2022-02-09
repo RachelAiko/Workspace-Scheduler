@@ -14,7 +14,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 
 import { HomeComponent } from './home/home.component';
 import { SignupComponent } from './signup/signup.component';
-import { LoginComponent } from './login/login.component';
+//import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -29,7 +29,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     AppComponent,
     HomeComponent,
     SignupComponent,
-    LoginComponent,
+    //LoginComponent,
     DashboardComponent,
     ForgotPasswordComponent,
     //ServerComponent

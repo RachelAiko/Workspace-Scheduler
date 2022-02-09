@@ -1,44 +1,3 @@
-<!-- <button mat-raised-button color="primary" routerLink="/signup">
-    Signup
-</button> -->
-
-<!-- <button mat-raised-button color="primary" routerLink="/login">
-    Login
-</button> -->
-
-<!-- <button mat-raised-button color="primary" routerLink="/dashboard">
-    Dashboard
-</button> -->
-<!-- 
-<button mat-raised-button color="primary" routerLink="/forgot-password">
-    Forgot Password?
-</button> -->
-
-<!-- <div *ngIf="(afAuth.user | async)">
-    User is logged in
-
-    <br>
-    <button mat-raised-button color="primary" (click)="logout()">
-        Log out
-    </button>
-</div>
-<div *ngIf="!(afAuth.user | async)">
-    User is not logged in
-</div> -->
-
-<div>
-    <div *ngIf="(afAuth.user | async)">
-        <!-- <h3>User is logged in</h3> -->
-        <button mat-raised-button color="black" style="float:right" (click)="logout()">
-            Log out
-        </button>
-    </div>
-    <div *ngIf="!(afAuth.user | async)">
-        <!-- <h3 style="color:white"> User is not logged in</h3> -->
-    </div>
-
-</div>
-
 <body>
 
     <!-- Login form -->
@@ -69,24 +28,36 @@
                                         <h4 class="mt-1 mb-5 pb-1">Ready to schedule a space?</h4>
                                     </div>
 
-                                    <form>
-                                        <p>Please login to your account</p>
-
-                                        <div class="form-outline mb-4">
-                                            <input type="email" id="form2Example11" class="form-control"
-                                                placeholder="Email address" />
-                                            <label class="form-label" for="form2Example11">Username</label>
-                                        </div>
-
-                                        <div class="form-outline mb-4">
-                                            <input type="password" id="form2Example22" class="form-control" />
-                                            <label class="form-label" for="form2Example22">Password</label>
-                                        </div>
-
-                                        <div class="text-center pt-1 mb-5 pb-1">
-                                            <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
-                                                type="button" routerLink="/login">Log in</button>
-                                            <a class="text-muted" type="button" routerLink="/forgot-password">Forgot
+                                    <form [formGroup]="loginForm" (ngSubmit)="loginUser()" type="" action="/examples/actions/confirmation.php" method="post">
+                                       
+                                            
+                                        <h4 class="modal-title">Login to your account</h4>
+                                        
+                                        <mat-card>
+                                        
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Email</mat-label>
+                                                <input autocomplete="off" formControlName="email" type="email" matInput placeholder="Email">
+                                            </mat-form-field>
+                                        
+                                        
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Password</mat-label>
+                                                <input autocomplete="off" formControlName="password" type="password" matInput placeholder="Password">
+                                            </mat-form-field>
+                                         
+                                          <div *ngIf="firebaseErrorMessage != ''" class="error-style">
+                                                <span>{{ firebaseErrorMessage }}</span>
+                                          </div>
+                                        </mat-card>
+                              
+                                        <p></p>  
+                              
+                                      <button mat-raised-button color="primary">Login</button>
+                                      
+                                      
+                                        <div>
+                                                <a class="text-muted" type="button" routerLink="/forgot-password">Forgot
                                                 password?</a>
                                         </div>
 

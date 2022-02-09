@@ -18,8 +18,8 @@
 					<a class="nav-link active" href="#" aria-current="page" href="#">Home</a>
 				</li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-						data-bs-toggle="dropdown" aria-expanded="false">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+						aria-expanded="false">
 						Office Location
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -28,8 +28,8 @@
 					</ul>
 				</li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-						data-bs-toggle="dropdown" aria-expanded="false">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+						aria-expanded="false">
 						Reservations
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -38,11 +38,11 @@
 					</ul>
 				</li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-						data-bs-toggle="dropdown" aria-expanded="false">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+						aria-expanded="false">
 						<i class="fas fa-user"> <img
-								src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
-								width="30" height="30" class="rounded-circle"></i> Profile </a>
+								src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="30"
+								height="30" class="rounded-circle"></i> Profile </a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<li><a class="dropdown-item" href="#">My Account</a></li>
 						<li><a class="dropdown-item" href="#">Manage Reservations</a></li>
@@ -55,12 +55,14 @@
 		</div>
 	</div>
 </nav>
+
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-3 sidebar"><h2>Dashboard</h2>
+		<div class="col-3 sidebar">
+			<h2>Dashboard</h2>
 			<select class="browser-default custom-select" (change)="selectOffice($event)">
-				<option *ngFor="let office of offices;let indexOfOffice=index;"
-					[attr.selected]="office == 0 ? true : null" value="{{ indexOfOffice }}">{{
+				<option *ngFor="let office of offices;let indexOfOffice=index;" [attr.selected]="office == 0 ? true : null"
+					value="{{ indexOfOffice }}">{{
 					office.name }}</option>
 			</select>
 
@@ -88,13 +90,15 @@
 						<th scope="row">{{workspace.workspaceType.name}} {{workspace.spaceNumber}}</th>
 						<td>{{workspace.office.name}}</td>
 						<td>{{checkAvailability(workspace)}}</td>
+						<td> <input type="button" value="Reserve" (click)="reserveWorkspace(workspace)"/></td>
 					</tr>
 				</tbody>
 			</table>
 
 		</div>
 		<div class="col-9 main-content" style="text-align: center;">
-			<img src="https://i.pinimg.com/736x/bd/d6/f5/bdd6f5247dbea0e5eedf33fe8cc491ee--office-layout-plan-office-floor-plan.jpg"
+			<img
+				src="https://i.pinimg.com/736x/bd/d6/f5/bdd6f5247dbea0e5eedf33fe8cc491ee--office-layout-plan-office-floor-plan.jpg"
 				alt="" style="size:50%">
 		</div>
 	</div>

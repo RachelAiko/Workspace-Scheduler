@@ -1,3 +1,4 @@
+using static API.Helpers.AuthHelper;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,11 @@ namespace MongoDBWebAPI.Controllers
 
 		// GET all offices
 		[HttpGet]
-		public async Task<ActionResult<List<Office>>> Get() => await _officeService.GetAll();
+		public async Task<ActionResult<List<Office>>> Get()
+		{
+			AuthorizeRequest(Request);
+			var ofc = await _officeService.GetAll();
+			return ofc;
+		}
 	}
 }
