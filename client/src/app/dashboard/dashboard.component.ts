@@ -16,8 +16,6 @@ export class DashboardComponent implements OnInit {
   selectedOffice: any;
   workspaces: any;
   selectedWorkspace: any;
-  selectedDate: any;
-  reservations: any;
 
   constructor(public afAuth: AngularFireAuth, private http: HttpClient) {
     this.baseURL = 'https://localhost:5001/api/';
@@ -26,7 +24,6 @@ export class DashboardComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.SetHeaders();
     this.getAllOffices();
-    this.selectedDate = '2022-01-20';
   }
 
   logout(): void {
@@ -64,11 +61,6 @@ export class DashboardComponent implements OnInit {
   selectOffice(event: any) {
     this.selectedOffice = this.offices[event.target.value];
     this.getWorkspaces(this.selectedOffice.id);
-  }
-
-  selectDate(data: any) {
-    this.selectedDate = data.date;
-    this.getReservationsByDate(this.selectedDate, this.selectedOffice.id);
   }
 
   getWorkspaces(officeID: string) {
