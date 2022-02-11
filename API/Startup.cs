@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MongoDBWebAPI.Models;
 using MongoDBWebAPI.Services;
+ using API.Helpers;
 
 namespace API
 {
@@ -79,6 +80,7 @@ namespace API
 				app.UseSwagger();
 				app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
 			}
+			app.ConfigureExceptionMiddleware();
 
 			app.UseHttpsRedirection();
 
@@ -94,6 +96,9 @@ namespace API
 			{
 				endpoints.MapControllers();
 			});
+			
+			//Inject Exception Middleware into App
+			//app.UseMiddleware(typeof(ExceptionHandlingMiddleware));
 		}
 	}
 }
