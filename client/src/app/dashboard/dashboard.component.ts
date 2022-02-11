@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,9 +18,10 @@ export class DashboardComponent implements OnInit {
   selectedDate: any;
   reservations: any;
   
-  today = new Date();
-  dtae = this.today.getFullYear()+'-'+(this.today.getMonth()+1)+'-'+this.today.getDate();
-
+  today = new Date().toLocaleDateString('en-US')
+  
+  date = new FormControl(new Date());
+  serializedDate = new FormControl(new Date().toISOString());
 
   constructor(public afAuth: AngularFireAuth, private http: HttpClient) {
     this.baseURL = 'https://localhost:5001/api/';
@@ -28,7 +30,8 @@ export class DashboardComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.SetHeaders();
     this.getAllOffices();
-    this.selectedDate = '2022-01-20';
+    this.selectedDate = "";
+    this.selectedOffice.officeID = 0;
   }
 
   logout(): void {

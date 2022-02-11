@@ -34,7 +34,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     DashboardComponent,
     ForgotPasswordComponent,
    
-    //ServerComponent
+    
   ],
   imports: [
     BrowserModule,

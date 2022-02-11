@@ -44,6 +44,10 @@ body {
 	font-family: 'Varela Round', sans-serif;
 }
 
+mat-form-field {
+  margin-right: 12px;
+  font-size: 14px;
+}
 
 
 
