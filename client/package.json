@@ -26,7 +26,8 @@
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4",
     "firebase": "^9.4.0",
-    "rxfire": "^6.0.0"
+    "rxfire": "^6.0.0",
+    "jquery-datepicker": "^1.12.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.2.12",
