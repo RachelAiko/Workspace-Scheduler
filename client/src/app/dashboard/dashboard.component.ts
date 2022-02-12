@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,9 +18,11 @@ export class DashboardComponent implements OnInit {
   selectedWorkspace: any;
   selectedDate: any;
   reservations: any;
-  
-  today = new Date().toLocaleDateString('en-US')
-  
+
+  // today = new Date().toLocaleDateString('en-US');
+  today = new Date().toISOString().split('T')[0];
+
+  // Do we need this?
   date = new FormControl(new Date());
   serializedDate = new FormControl(new Date().toISOString());
 
@@ -30,8 +33,7 @@ export class DashboardComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.SetHeaders();
     this.getAllOffices();
-    this.selectedDate = "";
-    this.selectedOffice.officeID = 0;
+    this.selectedDate = this.today;
   }
 
   logout(): void {
@@ -117,21 +119,25 @@ export class DashboardComponent implements OnInit {
     return 'Open';
   }
 
-	reserveWorkspace(workspace: any) {
-		this.http
-      .post(this.baseURL + 'reservation/' + this.selectedDate + '/' + workspace.id, null, {
-        headers: this.headers,
-      })
+  reserveWorkspace(workspace: any) {
+    this.http
+      .post(
+        this.baseURL + 'reservation/' + this.selectedDate + '/' + workspace.id,
+        null,
+        {
+          headers: this.headers,
+        }
+      )
       .subscribe(
         (response) => {
-					console.log('Reservation created in MongoDB');
+          console.log('Reservation created in MongoDB');
           console.log(response);
-					this.checkAvailability(workspace);
+          this.checkAvailability(workspace);
         },
         (error) => {
-					console.log('Error: Reservation NOT created in MongoDB');
+          console.log('Error: Reservation NOT created in MongoDB');
           console.log(error);
         }
       );
-	}
+  }
 }

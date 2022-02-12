@@ -22,10 +22,10 @@
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<label>Current Selection</label>
 						<li><select class="browser-default custom-select" (change)="selectOffice($event)">
-							<option *ngFor="let office of offices;let indexOfOffice=index;"
-								[attr.selected]="office == 0 ? true : null" value="{{ indexOfOffice }}">{{
-								office.name }}</option>
-						</select></li>		
+								<option *ngFor="let office of offices;let indexOfOffice=index;"
+									[attr.selected]="office == 0 ? true : null" value="{{ indexOfOffice }}">{{
+									office.name }}</option>
+							</select></li>
 					</ul>
 				</li>
 				<li class="nav-item dropdown">
@@ -36,7 +36,7 @@
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<li><a class="dropdown-item" href="#">New Reservation</a></li>
 						<li><a class="dropdown-item" href="#">View/Manage Reservation</a></li>
-						
+
 					</ul>
 				</li>
 				<li class="nav-item dropdown">
@@ -47,20 +47,21 @@
 								height="30" class="rounded-circle"></i> Profile </a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<li><a class="dropdown-item" href="#">My Account</a></li>
-						<li><a class="dropdown-item" href="#">Manage Reservations</a></li>
-						
+						<li><a class="dropdown-item" routerLink="/reservations">Manage Reservations</a></li>
+
 					</ul>
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link active" href="#" aria-expanded="false" href="#" (click)="logout()">Log out</a>
-			
+
 				</li>
 			</ul>
 		</div>
 		<!-- CallMiner Logo -->
 		<div class="text-right">
 			<a class="navbar-brand" href="#">
-				<img src="https://images.ctfassets.net/xj0skx6m69u2/cFRNy2dkU6bRc2iRmk7tF/6f1fc904dea9217c746c0b5cfd9eaa32/Logo_CallMiner_Color.svg"
+				<img
+					src="https://images.ctfassets.net/xj0skx6m69u2/cFRNy2dkU6bRc2iRmk7tF/6f1fc904dea9217c746c0b5cfd9eaa32/Logo_CallMiner_Color.svg"
 					alt=""></a>
 		</div>
 	</div>
@@ -71,51 +72,46 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-3 sidebar">
-			
+
 			<h2>Reservation Dashboard</h2>
 
-			<label for="reservationlocation">Office Location <br> {{selectedOffice.name}} </label>
+			<label for="reservationlocation">Office Location <br> {{selectedOffice?.name}} </label>
 			<br><br>
 
-			<form #dateselect="ngForm"  (ngSubmit)="selectDate(dateselect.value)">	
+			<form #dateselect="ngForm" (ngSubmit)="selectDate(dateselect.value)">
 				<label for="reservationdate">Select Date of Reservation</label>
 				<input type="date" name="date" id="reservationdate" ngModel>
-				<input type="submit" value="submit"> 	
+				<input type="submit" value="submit">
 			</form>
 
 		</div>
 	</div>
-	
+
 
 	<!-- Main Content Section (where workspace view will go)-->
-	<div class="table-responsive">	
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th scope="col">Workspace <br> {{selectedOffice.name}} </th>
-						<th scope="col">Availability <br> {{selectedDate}} </th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr mdbTableCol *ngFor="let workspace of workspaces">
-						<th scope="row">{{workspace.workspaceType.name}} {{workspace.spaceNumber}}</th>
-						<td>{{checkAvailability(workspace)}}
-							<br>
-							<input type="button" value="Reserve" (click)="reserveWorkspace(workspace)"/>
-						</td>
-						
-					</tr>
-				</tbody>
-			</table>
+	<div class="table-responsive">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th scope="col">Workspace <br> {{selectedOffice?.name}} </th>
+					<th scope="col">Availability <br> {{selectedDate}} </th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr mdbTableCol *ngFor="let workspace of workspaces">
+					<th scope="row">{{workspace.workspaceType.name}} {{workspace.spaceNumber}}</th>
+					<td>{{checkAvailability(workspace)}}
+						<br>
+						<input type="button" value="Reserve" (click)="reserveWorkspace(workspace)" />
+					</td>
+
+				</tr>
+			</tbody>
+		</table>
 
 	</div>
-		
-	
+
+
 
 
 </div>
-
-
-
-
-
