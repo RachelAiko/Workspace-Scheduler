@@ -34,9 +34,7 @@
 						Reservations
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li><a class="dropdown-item" href="#">New Reservation</a></li>
-						<li><a class="dropdown-item" href="#">View/Manage Reservation</a></li>
-
+						<li><a class="dropdown-item" routerLink="/reservations">Manage Reservations</a></li>
 					</ul>
 				</li>
 				<li class="nav-item dropdown">
@@ -47,7 +45,6 @@
 								height="30" class="rounded-circle"></i> Profile </a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<li><a class="dropdown-item" href="#">My Account</a></li>
-						<li><a class="dropdown-item" routerLink="/reservations">Manage Reservations</a></li>
 
 					</ul>
 				</li>
@@ -95,6 +92,7 @@
 				<tr>
 					<th scope="col">Workspace <br> {{selectedOffice?.name}} </th>
 					<th scope="col">Availability <br> {{selectedDate}} </th>
+					
 				</tr>
 			</thead>
 			<tbody>
@@ -112,6 +110,7 @@
 	</div>
 
 
-
+<app-reservations-list></app-reservations-list>
 
 </div>
+
