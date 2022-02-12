@@ -17,7 +17,7 @@
 			<div style="width: 25%" class="btn-group btn-group-sm"
 				[ngClass]="{hidden: !(selectedReservation === reservation)}" role="group" aria-label="Modify Reservation">
 				<button type="button" class="w-50 btn btn-light res-btn">View</button>
-				<button type="button" class="w-50 btn btn-danger res-btn">Delete</button>
+				<button type="button" (click)=deleteReservation() class="w-50 btn btn-danger res-btn">Delete</button>
 			</div>
 		</div>
 	</button>

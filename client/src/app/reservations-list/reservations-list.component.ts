@@ -56,4 +56,22 @@ export class ReservationsListComponent implements OnInit {
   selectReservation(reservation: any): void {
     this.selectedReservation = reservation;
   }
+
+  deleteReservation() {
+    this.http
+      .delete(this.baseURL + 'reservation/' + this.selectedReservation.id, {
+        headers: this.headers,
+      })
+      .subscribe(
+        (response) => {
+          console.log('Reservation successfully deleted');
+          console.log(response);
+          this.getReservations();
+        },
+        (error) => {
+          console.log('Error: Reservation NOT deleted in MongoDB');
+          console.log(error);
+        }
+      );
+  }
 }
