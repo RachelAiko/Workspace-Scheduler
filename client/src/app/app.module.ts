@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideAuth, getAuth } from '@angular/fire/auth';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AngularFireModule } from '@angular/fire/compat';
@@ -21,9 +21,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-import { MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 
+import { ReservationsListComponent } from './reservations-list/reservations-list.component';
 
 @NgModule({
   declarations: [
@@ -33,8 +34,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     SignupComponent,
     DashboardComponent,
     ForgotPasswordComponent,
-   
-    
+    ReservationsListComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +44,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     BrowserAnimationsModule,
 
     AngularFireModule.initializeApp(environment.firebase),
-    
+
     MatButtonModule,
     MatCardModule,
     MatInputModule,
@@ -52,15 +52,12 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatDatepickerModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    
+
     FormsModule,
     ReactiveFormsModule,
 
-    
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
-    
-   
   ],
   providers: [],
   bootstrap: [AppComponent],
