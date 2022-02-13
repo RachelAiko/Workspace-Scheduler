@@ -47,7 +47,7 @@
 									src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
 									width="30" height="30" class="rounded-circle"></i> Profile </a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" href="#">My Account</a></li>
+							<li><a class="dropdown-item" routerLink='/user-profile' routerLinkActive="active">My Account</a></li>
 							<li><a class="dropdown-item" href="#">Manage Reservations</a></li>
 
 						</ul>
@@ -76,7 +76,7 @@
 
 				<h2>Reservation Dashboard</h2>
 
-				<label for="reservationlocation">Office Location <br> {{selectedOffice.name}} </label>
+				<label for="reservationlocation">Office Location: <br> {{selectedOffice.name}} </label>
 				<br><br>
 
 				<form #dateselect="ngForm" (ngSubmit)="selectDate(dateselect.value)">
@@ -100,7 +100,13 @@
 				</thead>
 				<tbody>
 					<tr mdbTableCol *ngFor="let workspace of workspaces">
-						<th scope="row">{{workspace.workspaceType.name}} {{workspace.spaceNumber}}</th>
+						<th scope="row">{{workspace.workspaceType.name}} {{workspace.spaceNumber}} <br>
+							<button type="button" class="btn btn-link" data-bs-toggle="modal"
+							data-bs-target="#infoModal">
+							 workspace details
+						</button>
+						<button class="btn fa-solid fa-circle-info"></button>
+					</th>
 						<td>{{checkAvailability(workspace)}}
 							<br>
 							<input type="button" value="Reserve" (click)="reserveWorkspace(workspace)" />
@@ -111,6 +117,39 @@
 			</table>
 
 		</div>
+
+		<!-- Workspace information modal  -->
+				<!-- TODO: needs to be dynamic based on selected space -->
+				<div class="modal" id="infoModal">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+
+							<!-- Modal Header -->
+							<div class="modal-header">
+								<h4 class="modal-title">Workspace Information</h4>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+							</div>
+
+							<!-- Modal body -->
+							<div class="modal-body">
+								<img src="" alt="workspace image" style="size:5%">
+								<br>
+								Capacity: //workspace capacity
+								<br>
+								Equipment: //workspace features
+								<br>
+								Notes: //workspace issues or notes
+							</div>
+
+							<!-- Modal footer -->
+							<div class="modal-footer">
+								<!-- TODO: button to reserve displayed workspace -->
+								<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+							</div>
+
+						</div>
+					</div>
+				</div>
 
 	</div>
 </body>

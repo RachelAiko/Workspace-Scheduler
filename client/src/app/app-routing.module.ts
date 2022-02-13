@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { SignupComponent } from './signup/signup.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 import { AuthGuard } from './services/auth.guard';
 
@@ -16,6 +17,7 @@ const routes: Routes = [
     { path: 'forgot-password', component: ForgotPasswordComponent},
     { path: 'signup', component: SignupComponent },
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+    { path: 'user-profle', component: UserProfileComponent},
     { path: '**', component: HomeComponent },                       // catch-all in case no other path matched
 ];
 
