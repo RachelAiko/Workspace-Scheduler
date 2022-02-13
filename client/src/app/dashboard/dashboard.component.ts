@@ -17,10 +17,14 @@ export class DashboardComponent implements OnInit {
   workspaces: any;
   selectedWorkspace: any;
   selectedDate: any;
+  selectedReservation: any;
+
   reservations: any;
+  
 
   // today = new Date().toLocaleDateString('en-US');
   today = new Date().toISOString().split('T')[0];
+  
 
   // Do we need this?
   date = new FormControl(new Date());
@@ -119,6 +123,22 @@ export class DashboardComponent implements OnInit {
     return 'Open';
   }
 
+  getReservations() {
+    this.http
+      .get(this.baseURL + 'reservation', {
+        headers: this.headers,
+      })
+      .subscribe(
+        (response) => {
+          this.reservations = response;
+          this.selectedReservation = this.reservations[0];
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+  
   reserveWorkspace(workspace: any) {
     this.http
       .post(
@@ -133,6 +153,7 @@ export class DashboardComponent implements OnInit {
           console.log('Reservation created in MongoDB');
           console.log(response);
           this.checkAvailability(workspace);
+          this.getReservations();
         },
         (error) => {
           console.log('Error: Reservation NOT created in MongoDB');
