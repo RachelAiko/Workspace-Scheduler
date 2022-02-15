@@ -1,7 +1,14 @@
-<!-- html file for the header component. Contains navbar -->
+<!-- Main dashboard page. Contains navbar and workspace availability content -->
+<!DOCTYPE html>
+<html>
 
+<head>
+	<!-- icon library -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
 
-<!-- ------------------------Navbar ------------------------------------------------------------>
+<!-- Navbar -->
 
 <nav class="navbar navbar-expand-lg navbar-light">
 	<div class="container-fluid gradient-custom-2 ">
@@ -15,8 +22,8 @@
 					<a class="nav-link active" href="#" aria-current="page" href="#">Home</a>
 				</li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-						aria-expanded="false">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false">
 						Office Location
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -29,8 +36,8 @@
 					</ul>
 				</li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-						aria-expanded="false">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false">
 						Reservations
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -38,11 +45,11 @@
 					</ul>
 				</li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-						aria-expanded="false">
-						<i class="fas fa-user"> <img
-								src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="30"
-								height="30" class="rounded-circle"></i> Profile </a>
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false">
+						<i class='fas fa-user-astronaut'> <img
+								src="https://icon-library.com/images/username-icon-png/username-icon-png-19.jpg"
+								width="30" height="30" class="rounded-circle"></i> Profile </a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<li><a class="dropdown-item" href="#">My Account</a></li>
 
@@ -57,8 +64,7 @@
 		<!-- CallMiner Logo -->
 		<div class="text-right">
 			<a class="navbar-brand" href="#">
-				<img
-					src="https://images.ctfassets.net/xj0skx6m69u2/cFRNy2dkU6bRc2iRmk7tF/6f1fc904dea9217c746c0b5cfd9eaa32/Logo_CallMiner_Color.svg"
+				<img src="https://images.ctfassets.net/xj0skx6m69u2/cFRNy2dkU6bRc2iRmk7tF/6f1fc904dea9217c746c0b5cfd9eaa32/Logo_CallMiner_Color.svg"
 					alt=""></a>
 		</div>
 	</div>
@@ -92,25 +98,64 @@
 				<tr>
 					<th scope="col">Workspace <br> {{selectedOffice?.name}} </th>
 					<th scope="col">Availability <br> {{selectedDate}} </th>
-					
+
 				</tr>
 			</thead>
 			<tbody>
 				<tr mdbTableCol *ngFor="let workspace of workspaces">
-					<th scope="row">{{workspace.workspaceType.name}} {{workspace.spaceNumber}}</th>
+					<th scope="row">{{workspace.workspaceType.name}} {{workspace.spaceNumber}} <br>
+						<button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#infoModal">
+							<i class="fa fa-info-circle"></i>
+						</button>
+					</th>
 					<td>{{checkAvailability(workspace)}}
 						<br>
 						<input type="button" value="Reserve" (click)="reserveWorkspace(workspace)" />
 					</td>
-
 				</tr>
 			</tbody>
 		</table>
 
 	</div>
-
-
-<app-reservations-list></app-reservations-list>
+	<!-- Current user's reservations list -->
+	<app-reservations-list></app-reservations-list>
 
 </div>
+<!-- Workspace information modal  -->
+<!-- TODO: needs to be dynamic based on selected space -->
+<div class="modal" id="infoModal">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
 
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<h4 class="modal-title">Workspace Information</h4>
+				<button type="button" class="btn-close" data-bs-toggle="tooltip" title="Workspace information"
+					data-bs-dismiss="modal"></button>
+			</div>
+
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="col-md-5 p-3">
+					<img src="https://icon-library.com/images/desk-icon/desk-icon-28.jpg" alt="workspace image"
+						width="200" height="200">
+				</div>
+				<div class="col-md-7 p-3">
+					Capacity: //workspace capacity
+					<br>
+					Equipment: //workspace features
+					<br>
+					Notes: //workspace issues or notes
+				</div>
+			</div>
+
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<!-- TODO: button to reserve displayed workspace -->
+				<button type="button" class="btn btn-primary btn fa-lg gradient-custom-2 mb-3 disabled">Reserve</button>
+				<button type="button" class="btn btn-primary btn fa-lg gradient-custom-2 mb-3"
+					data-bs-dismiss="modal">Close</button>
+			</div>
+
+		</div>
+	</div>
