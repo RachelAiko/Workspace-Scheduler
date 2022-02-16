@@ -14,7 +14,7 @@ const routes: Routes = [
   
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-   { path: 'user-profle', component: UserProfileComponent},
+  //  { path: 'user-profle', component: UserProfileComponent},
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'signup', component: SignupComponent },
   {
@@ -25,6 +25,11 @@ const routes: Routes = [
   {
     path: 'reservations',
     component: ReservationsListComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'user-profile', 
+    component: UserProfileComponent,
     canActivate: [AuthGuard],
   },
   { path: '**', component: HomeComponent }, // catch-all in case no other path matched
