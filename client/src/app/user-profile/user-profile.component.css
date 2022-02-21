@@ -2,7 +2,7 @@ body{
     margin-top:20px;
     color: #1a202c;
     text-align: left;
-    background-color: rgb(223, 220, 228);    
+    /* background-color: rgb(223, 220, 228);     */
 }
 .main-body {
     padding: 15px;
@@ -60,4 +60,30 @@ body{
   
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+  }
+
+  .middle {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  
+  .containerP:hover .image {
+    opacity: 0.3;
+  }
+  
+  .containerP:hover .middle {
+    opacity: 1;
+  }
+  
+  .text {
+    background-color: #f5db93;
+    color: rgb(2, 2, 2);
+    font-size: 4px;
+    padding: 4px 8px;
   }

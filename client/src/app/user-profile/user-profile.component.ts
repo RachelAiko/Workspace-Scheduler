@@ -18,5 +18,8 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  logout(): void {
+    this.afAuth.signOut();
+  }
 
 }

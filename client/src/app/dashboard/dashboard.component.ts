@@ -124,7 +124,11 @@ export class DashboardComponent implements OnInit {
       }
 
     }
-    return 'Open';
+    if(workspace.permanent == true){
+      console.log(workspace);
+      return 'Permanently reserved for ' + workspace.permanentFor.name;
+    }
+    else return 'Open';
   }
 
   
