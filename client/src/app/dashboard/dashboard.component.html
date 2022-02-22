@@ -92,7 +92,7 @@
 				<tr>
 					<th scope="col">Workspace <br> {{selectedOffice?.name}} </th>
 					<th scope="col">Availability <br> {{selectedDate}} </th>
-					
+
 				</tr>
 			</thead>
 			<tbody>
@@ -100,7 +100,10 @@
 					<th scope="row">{{workspace.workspaceType.name}} {{workspace.spaceNumber}}</th>
 					<td>{{checkAvailability(workspace)}}
 						<br>
-						<input type="button" value="Reserve" (click)="reserveWorkspace(workspace)" />
+						<input type="button" value="Reserve" (click)="reserveWorkspace(workspace, requestedID.value)" />
+						<input type="text" name="requestedID" #requestedID placeholder="requested ID" />
+						<input type="button" value="Make Permanent" (click)="makePermanent(workspace, requestedID.value)" />
+						<input type="button" value="Remove Permanent" (click)="removePermanent(workspace)" />
 					</td>
 
 				</tr>
@@ -110,7 +113,6 @@
 	</div>
 
 
-<app-reservations-list></app-reservations-list>
+	<app-reservations-list></app-reservations-list>
 
 </div>
-
