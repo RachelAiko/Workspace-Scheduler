@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
   selectedWorkspace: any;
   selectedDate: any;
   selectedReservation: any;
-
+  uid: any;
   reservations: any;
 
 
@@ -53,6 +53,7 @@ export class DashboardComponent implements OnInit {
             this.headers = new HttpHeaders()
               .set('content-type', 'application/json')
               .set('Authorization', idToken);
+            this.uid = user.uid;
             resolve();
           });
         }
@@ -124,35 +125,39 @@ export class DashboardComponent implements OnInit {
       }
 
     }
-    if(workspace.permanent == true){
-      console.log(workspace);
+
+    if (workspace.isPermanent === true)
       return 'Permanently reserved for ' + workspace.permanentFor.name;
-    }
     else return 'Open';
   }
 
-  
-  getReservations() {
-    this.http
-      .get(this.baseURL + 'reservation', {
-        headers: this.headers,
-      })
-      .subscribe(
-        (response) => {
-          this.reservations = response;
-          this.selectedReservation = this.reservations[0];
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  }
+  /*
+		I Think this was copied from the reservations-list component but it's not needed here?
+		- Ken
+	*/
+  // getReservations() {
+  //   this.http
+  //     .get(this.baseURL + 'reservation/' + this.uid, {
+  //       headers: this.headers,
+  //     })
+  //     .subscribe(
+  //       (response) => {
+  //         this.reservations = response;
+  //         this.selectedReservation = this.reservations[0];
+  //       },
+  //       (error) => {
+  //         console.log(error);
+  //       }
+  //     );
+  // }
 
-  reserveWorkspace(workspace: any) {
+  reserveWorkspace(workspace: any, requestedID: any) {
+    if (requestedID === '') requestedID = this.uid;
+
     this.http
       .post(
         this.baseURL + 'reservation/' + this.selectedDate + '/' + workspace.id,
-        null,
+        JSON.stringify(requestedID),
         {
           headers: this.headers,
         }
@@ -161,11 +166,53 @@ export class DashboardComponent implements OnInit {
         (response) => {
           console.log('Reservation created in MongoDB');
           console.log(response);
-          this.checkAvailability(workspace);
-          this.getReservations();
+          this.getReservationsByDate(this.selectedDate, this.selectedOffice.id);
         },
         (error) => {
           console.log('Error: Reservation NOT created in MongoDB');
+          console.log(error);
+        }
+      );
+  }
+
+
+  makePermanent(workspace: any, requestedID: any) {
+    if (requestedID === '') requestedID = this.uid;
+
+    this.http
+      .put(
+        this.baseURL + 'workspace/' + workspace.id + '/' + requestedID,
+        null,
+        {
+          headers: this.headers,
+        }
+      )
+      .subscribe(
+        (response) => {
+          console.log('Workspace updated in MongoDB');
+          console.log(response);
+          this.getWorkspaces(this.selectedOffice.id);
+        },
+        (error) => {
+          console.log('Error: Workspace NOT updated in MongoDB');
+          console.log(error);
+        }
+      );
+  }
+
+  removePermanent(workspace: any) {
+    this.http
+      .put(this.baseURL + 'workspace/' + workspace.id, null, {
+        headers: this.headers,
+      })
+      .subscribe(
+        (response) => {
+          console.log('Workspace updated in MongoDB');
+          console.log(response);
+          this.getWorkspaces(this.selectedOffice.id);
+        },
+        (error) => {
+          console.log('Error: Workspace NOT updated in MongoDB');
           console.log(error);
         }
       );

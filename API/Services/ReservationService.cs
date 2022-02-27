@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDBWebAPI.Models;
 
@@ -22,26 +23,39 @@ namespace MongoDBWebAPI.Services
 			_workspaces = database.GetCollection<Workspace>(settings.WorkspaceCollectionName);
 		}
 
-		public async Task<bool> IsAdmin(string _userID)
+		public async Task<bool[]> ValidateReservation(string _creatorID, string _date, string _reservedForID)
 		{
-			var admin = await _users.Find(usr => usr.AuthID == _userID && usr.IsAdmin == true).SingleOrDefaultAsync(); ;
-			if (admin != null) return true;
-			else return false;
+			bool[] results = { true, true };
+			var existingReservation = await _reservations.Find(rsv => rsv.ReservedFor.AuthID == _reservedForID && rsv.Date == _date).SingleOrDefaultAsync();
+			if (existingReservation != null)
+			{
+				results[0] = false;
+			}
+			////////////////////////
+			// TODO: check if more than 3 reservations made during the same week or admin
+			////////////////////////
+			return results;
 		}
 
-		// GET all reservations for current user (protected per user/role)
-		public async Task<List<Reservation>> GetReservations(string _userID)
+		public async Task<Reservation> FindReservation(string _reservationID)
+		{
+			var reservation = await _reservations.Find(rsv => rsv.Id == _reservationID).SingleOrDefaultAsync();
+			return reservation;
+		}
+
+		// GET all reservations (admin only)
+		public async Task<List<Reservation>> GetAllReservations()
 		{
 			List<Reservation> reservations;
-			reservations = await _reservations.Find(rsv => rsv.ReservedFor.AuthID == _userID).ToListAsync();
+			reservations = await _reservations.Find(rsv => true).Sort(new BsonDocument("Date", 1)).ToListAsync();
 			return reservations;
 		}
 
-		// GET all reservations for specific user (protected per user/role)
-		public async Task<List<Reservation>> GetReservationsForOtherUser(string _userID, string _requestedID)
+		// GET all reservations for a user (protected per user/role)
+		public async Task<List<Reservation>> GetReservations(string _requestedID)
 		{
 			List<Reservation> reservations;
-			reservations = await _reservations.Find(rsv => rsv.ReservedFor.AuthID == _userID).ToListAsync();
+			reservations = await _reservations.Find(rsv => rsv.ReservedFor.AuthID == _requestedID).Sort(new BsonDocument("Date", 1)).ToListAsync();
 			return reservations;
 		}
 

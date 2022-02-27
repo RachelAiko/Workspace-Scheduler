@@ -13,7 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MongoDBWebAPI.Models;
 using MongoDBWebAPI.Services;
- using API.Helpers;
+using API.Helpers;
 
 namespace API
 {
@@ -96,7 +96,7 @@ namespace API
 			{
 				endpoints.MapControllers();
 			});
-			
+
 			//Inject Exception Middleware into App
 			//app.UseMiddleware(typeof(ExceptionHandlingMiddleware));
 		}

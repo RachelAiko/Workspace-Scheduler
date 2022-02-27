@@ -15,49 +15,59 @@ namespace MongoDBWebAPI.Controllers
 	public class ReservationController : ControllerBase
 	{
 		private readonly ReservationService _reservationService;
+		private readonly UserService _userService;
+		private readonly WorkspaceService _workspaceService;
 
-		public ReservationController(ReservationService reservationService)
+		public ReservationController(ReservationService reservationService, UserService userService, WorkspaceService workspaceService)
 		{
 			_reservationService = reservationService;
+			_userService = userService;
+			_workspaceService = workspaceService;
 		}
 
-/*
-		// GET all reservations for current user (protected per user/role)
-		[HttpGet]
-		public async Task<ActionResult<List<Reservation>>> GetReservations()
-		{
-			try
-			{
-				var user = await AuthorizeUser(Request);
-				string userID = user[0];
-				var rsv = await _reservationService.GetReservations(userID);
-				return rsv;
-				
-			}
-			catch (Exception e)
-			{
-				return HandleError(e);
-			}	
-		}
-*/		
-		// GET all reservations for current user (protected per user/role)
+		/*
+				// GET all reservations for current user (protected per user/role)
+				[HttpGet]
+				public async Task<ActionResult<List<Reservation>>> GetReservations()
+				{
+					try
+					{
+						var user = await AuthorizeUser(Request);
+						string userID = user[0];
+						var rsv = await _reservationService.GetReservations(userID);
+						return rsv;
+
+					}
+					catch (Exception e)
+					{
+						return HandleError(e);
+					}	
+				}
+		*/
+
+		// GET all reservations (admin only)
 		[HttpGet]
 		public async Task<ActionResult<List<Reservation>>> GetReservations()
 		{
 			var user = await AuthorizeUser(Request);
 			//throw new Exception("Invalid User Id");
 			string userID = user[0];
-			var rsv = await _reservationService.GetReservations(userID);
+			if (!await _userService.IsAdmin(userID))
+			{
+				return Unauthorized();
+			}
+			var rsv = await _reservationService.GetAllReservations();
 			return rsv;
 		}
 
-		// GET all reservations for specific user (protected per user/role)
+		// GET all reservations for a user (protected per user/role)
 		[HttpGet("{requestedID}")]
-		public async Task<ActionResult<List<Reservation>>> GetReservationsForOtherUser(string requestedID)
+		public async Task<ActionResult<List<Reservation>>> GetReservations(string requestedID)
 		{
 			var user = await AuthorizeUser(Request);
+			//throw new Exception("Invalid User Id");
 			string userID = user[0];
-			if (!await _reservationService.IsAdmin(userID))
+			if (userID != requestedID && !await _userService.IsAdmin(userID))
 			{
 				return Unauthorized();
 			}
@@ -68,19 +78,35 @@ namespace MongoDBWebAPI.Controllers
 		// GET all reservations for specific date (protected general)
 		[HttpGet("ByDate/{date}/{officeID}")]
 		public async Task<ActionResult<List<Reservation>>> GetReservationsByDate(string date, string officeID)
-		{			
+		{
 			AuthorizeRequest(Request);
 			var rsv = await _reservationService.GetReservationsByDate(date, officeID);
 			return rsv;
 		}
 
-		// POST a new reservation for specific user (protected per user/role)
+		// POST a new reservation for a user (protected per user/role)
 		[HttpPost("{date}/{workspaceID}")]
-		public async Task<ActionResult<Reservation>> CreateReservation(string date, string workspaceID)
+		public async Task<ActionResult<Reservation>> CreateReservation(string date, string workspaceID, [FromBody] string reservedForID)
 		{
 			var user = await AuthorizeUser(Request);
 			string creatorID = user[0];
-			string reservedForID = creatorID;
+			if (creatorID != reservedForID && !await _userService.IsAdmin(creatorID))
+			{
+				return Unauthorized();
+			}
+			if (!await _workspaceService.IsAvailable(workspaceID))
+			{
+				return BadRequest("Workspace is permanently reserved");
+			}
+			var validated = await _reservationService.ValidateReservation(creatorID, date, reservedForID);
+			if (validated[0] == false)
+			{
+				return BadRequest("User already has a reservation on " + date);
+			}
+			else if (validated[1] == false)
+			{
+				return BadRequest("You have already made 3 reservations for this week");
+			}
 			var rsv = await _reservationService.CreateReservation(creatorID, date, reservedForID, workspaceID);
 			return rsv;
 		}
@@ -89,7 +115,14 @@ namespace MongoDBWebAPI.Controllers
 		[HttpDelete("{reservationID}")]
 		public async Task<ActionResult<Reservation>> DeleteReservation(string reservationID)
 		{
-			var rsv = await _reservationService.DeleteReservation(reservationID);
+			var user = await AuthorizeUser(Request);
+			string userID = user[0];
+			var rsv = await _reservationService.FindReservation(reservationID);
+			if (userID != rsv.ReservedFor.AuthID && !await _userService.IsAdmin(userID))
+			{
+				return Unauthorized();
+			}
+			rsv = await _reservationService.DeleteReservation(reservationID);
 			return rsv;
 		}
 
