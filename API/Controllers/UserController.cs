@@ -28,5 +28,14 @@ namespace MongoDBWebAPI.Controllers
 			var usr = await _userService.CreateUser(name, authID, email);
 			return usr;
 		}
+
+		[HttpGet("search")]
+		public async Task<IActionResult> Search
+		(
+			[FromQuery(Name = "s")] string s
+		)
+		{
+			return Ok(await _userService.Query(s));
+		}
 	}
 }
