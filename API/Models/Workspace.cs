@@ -13,5 +13,6 @@ namespace MongoDBWebAPI.Models
 		public WorkspaceType WorkspaceType { get; set; }
 		public bool IsPermanent { get; set; }
 		public User PermanentFor { get; set; }
+
 	}
 }

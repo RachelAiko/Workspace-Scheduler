@@ -1,4 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CssSelector } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormControl } from '@angular/forms';
@@ -21,8 +22,10 @@ export class DashboardComponent implements OnInit {
   uid: any;
   reservations: any;
 
+
   // today = new Date().toLocaleDateString('en-US');
   today = new Date().toISOString().split('T')[0];
+
 
   // Do we need this?
   date = new FormControl(new Date());
@@ -116,9 +119,13 @@ export class DashboardComponent implements OnInit {
     if (!this.reservations) return 'Loading';
     for (let reservation of this.reservations) {
       if (reservation.workspace.id == workspace.id) {
-        return 'Reserved For ' + reservation.reservedFor.name;
+        //(this.reservations).css('background-color', 'red');
+       // return 'Reserved For ' + reservation.reservedFor.name.css('background-color', 'red');   //logic for color based on availability will go here
+        return 'Reserved For ' + reservation.reservedFor.name
       }
+
     }
+
     if (workspace.isPermanent === true)
       return 'Permanently reserved for ' + workspace.permanentFor.name;
     else return 'Open';
@@ -146,6 +153,7 @@ export class DashboardComponent implements OnInit {
 
   reserveWorkspace(workspace: any, requestedID: any) {
     if (requestedID === '') requestedID = this.uid;
+
     this.http
       .post(
         this.baseURL + 'reservation/' + this.selectedDate + '/' + workspace.id,
@@ -167,8 +175,10 @@ export class DashboardComponent implements OnInit {
       );
   }
 
+
   makePermanent(workspace: any, requestedID: any) {
     if (requestedID === '') requestedID = this.uid;
+
     this.http
       .put(
         this.baseURL + 'workspace/' + workspace.id + '/' + requestedID,
