@@ -67,7 +67,7 @@ namespace API.Helpers
                     FormatException => "Invalid Authentication Token", 
                     FirebaseAdmin.Auth.FirebaseAuthException => "Expired Authentication Token", 
                     Newtonsoft.Json.JsonReaderException => "Json Reader Exception", 
-                    _ => "Internal Server Error"
+                    _ => exception.Message
                 };
 
                 await context.Response.WriteAsync(new Error()

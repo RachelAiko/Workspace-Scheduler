@@ -38,8 +38,15 @@ namespace MongoDBWebAPI.Services
 			{
 				filter = Builders<User>.Filter.Regex("Name", new BsonRegularExpression(searchString, "i")) |
 						 Builders<User>.Filter.Regex("Email", new BsonRegularExpression(searchString, "i"));
+
+				return await _users.Find(filter).ToListAsync();
 			}
-			return await _users.Find(filter).ToListAsync();
+			else
+			{
+				Console.WriteLine("Here");
+				throw new Exception("No User Found");
+			}
+			
 		}
 	}
 }
