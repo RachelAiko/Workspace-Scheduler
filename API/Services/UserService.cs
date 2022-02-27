@@ -31,12 +31,13 @@ namespace MongoDBWebAPI.Services
 			return newUser;
 		}
 
-		public async Task<Object> Query(string s)
+		public async Task<Object> Query(string searchString)
 		{
 			var filter = Builders<User>.Filter.Empty;
-			if(!string.IsNullOrEmpty(s))
+			if(!string.IsNullOrEmpty(searchString))
 			{
-				filter = Builders<User>.Filter.Regex("Name", new BsonRegularExpression(s, "i"));
+				filter = Builders<User>.Filter.Regex("Name", new BsonRegularExpression(searchString, "i")) |
+						 Builders<User>.Filter.Regex("Email", new BsonRegularExpression(searchString, "i"));
 			}
 			return await _users.Find(filter).ToListAsync();
 		}

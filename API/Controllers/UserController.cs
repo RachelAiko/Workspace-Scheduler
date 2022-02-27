@@ -32,10 +32,10 @@ namespace MongoDBWebAPI.Controllers
 		[HttpGet("search")]
 		public async Task<IActionResult> Search
 		(
-			[FromQuery(Name = "s")] string s
+			[FromQuery(Name = "searchString")] string searchString
 		)
 		{
-			return Ok(await _userService.Query(s));
+			return Ok(await _userService.Query(searchString));
 		}
 	}
 }
