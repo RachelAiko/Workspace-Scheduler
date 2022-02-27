@@ -36,6 +36,7 @@ namespace MongoDBWebAPI.Services
 			var filter = Builders<User>.Filter.Empty;
 			if(!string.IsNullOrEmpty(searchString))
 			{
+				//Filter searches through the Database for Name and/or Email
 				filter = Builders<User>.Filter.Regex("Name", new BsonRegularExpression(searchString, "i")) |
 						 Builders<User>.Filter.Regex("Email", new BsonRegularExpression(searchString, "i"));
 
@@ -43,8 +44,8 @@ namespace MongoDBWebAPI.Services
 			}
 			else
 			{
-				Console.WriteLine("Here");
-				throw new Exception("No User Found");
+				//Remove thrown exception and simply display on screen message "No Search Input Entered"
+				throw new Exception("No Search Input Entered");
 			}
 			
 		}
