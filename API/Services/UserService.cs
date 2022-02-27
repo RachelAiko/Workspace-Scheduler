@@ -17,6 +17,13 @@ namespace MongoDBWebAPI.Services
 			_users = database.GetCollection<User>(settings.UserCollectionName);
 		}
 
+		public async Task<bool> IsAdmin(string _userID)
+		{
+			var admin = await _users.Find(usr => usr.AuthID == _userID && usr.IsAdmin == true).SingleOrDefaultAsync();
+			if (admin != null) return true;
+			else return false;
+		}
+
 		// POST a new user (protected per user/role)
 		public async Task<User> CreateUser(string _name, string _authID, string _email)
 		{
