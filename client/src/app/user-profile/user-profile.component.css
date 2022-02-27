@@ -21,6 +21,7 @@ body{
     background-clip: border-box;
     border: 0 solid rgba(0,0,0,.125);
     border-radius: .25rem;
+    font-size: medium;
 }
 
 .card-body {
@@ -84,6 +85,8 @@ body{
   .text {
     background-color: #f5db93;
     color: rgb(2, 2, 2);
-    font-size: 4px;
+    font-size: 8px;
     padding: 4px 8px;
   }
+
+  
