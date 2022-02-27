@@ -11,5 +11,7 @@ namespace MongoDBWebAPI.Models
 		public int SpaceNumber { get; set; }
 		public Office Office { get; set; }
 		public WorkspaceType WorkspaceType { get; set; }
+		public bool IsPermanent { get; set; }
+		public User PermanentFor { get; set; }
 	}
 }
