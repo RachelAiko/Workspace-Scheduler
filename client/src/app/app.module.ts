@@ -23,6 +23,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 import { ReservationsListComponent } from './reservations-list/reservations-list.component';
 
@@ -35,6 +36,7 @@ import { ReservationsListComponent } from './reservations-list/reservations-list
     DashboardComponent,
     ForgotPasswordComponent,
     ReservationsListComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,

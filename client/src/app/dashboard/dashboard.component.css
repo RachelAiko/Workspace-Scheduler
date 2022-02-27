@@ -39,14 +39,25 @@ button {
   }
 
 body {
-	color: #999;
-	background: #f5f5f5;
+	color: rgb(5, 5, 5);
+	background: rgb(223, 220, 228);
 	font-family: 'Varela Round', sans-serif;
 }
 
 mat-form-field {
   margin-right: 12px;
   font-size: 14px;
+}
+
+.gradient-custom-2 {
+  /* fallback for old browsers */
+  background: #e29b43;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
 }
 
 
