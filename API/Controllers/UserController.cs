@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDBWebAPI.Models;
 using MongoDBWebAPI.Services;
 using System;
+using Newtonsoft.Json;
 
 namespace MongoDBWebAPI.Controllers
 {
@@ -37,7 +38,12 @@ namespace MongoDBWebAPI.Controllers
 		)
 		{
 			var user = await AuthorizeUser(Request);
-			return Ok(await _userService.Query(searchString));
+			var userList = await _userService.Query(searchString);
+			if(userList == null)
+			{
+				return NotFound("No User Found");
+			}
+			return Ok(userList);
 		}
 	}
 }

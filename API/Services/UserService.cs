@@ -40,14 +40,13 @@ namespace MongoDBWebAPI.Services
 				filter = Builders<User>.Filter.Regex("Name", new BsonRegularExpression(searchString, "i")) |
 						 Builders<User>.Filter.Regex("Email", new BsonRegularExpression(searchString, "i"));
 
-				return await _users.Find(filter).ToListAsync();
 			}
-			else
+			List<User> userList = await _users.Find(filter).ToListAsync();
+			if(userList.Count == 0)
 			{
-				//Remove thrown exception and simply display on screen message "No Search Input Entered"
-				throw new Exception("No Search Input Entered");
+				return null;
 			}
-			
+			return userList;
 		}
 	}
 }
