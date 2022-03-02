@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDBWebAPI.Models;
 
@@ -34,6 +36,24 @@ namespace MongoDBWebAPI.Services
 			// add code to not add duplicate users
 			await _users.InsertOneAsync(newUser);
 			return newUser;
+		}
+
+		public async Task<Object> Query(string searchString)
+		{
+			var filter = Builders<User>.Filter.Empty;
+			if(!string.IsNullOrEmpty(searchString))
+			{
+				//Filter searches through the Database for Name and/or Email
+				filter = Builders<User>.Filter.Regex("Name", new BsonRegularExpression(searchString, "i")) |
+						 Builders<User>.Filter.Regex("Email", new BsonRegularExpression(searchString, "i"));
+
+			}
+			List<User> userList = await _users.Find(filter).ToListAsync();
+			if(userList.Count == 0)
+			{
+				return null;
+			}
+			return userList;
 		}
 	}
 }
