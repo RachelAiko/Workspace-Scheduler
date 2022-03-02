@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CssSelector } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -18,13 +19,13 @@ export class DashboardComponent implements OnInit {
   selectedWorkspace: any;
   selectedDate: any;
   selectedReservation: any;
-
+  uid: any;
   reservations: any;
-  
+
 
   // today = new Date().toLocaleDateString('en-US');
   today = new Date().toISOString().split('T')[0];
-  
+
 
   // Do we need this?
   date = new FormControl(new Date());
@@ -52,6 +53,7 @@ export class DashboardComponent implements OnInit {
             this.headers = new HttpHeaders()
               .set('content-type', 'application/json')
               .set('Authorization', idToken);
+            this.uid = user.uid;
             resolve();
           });
         }
@@ -117,33 +119,45 @@ export class DashboardComponent implements OnInit {
     if (!this.reservations) return 'Loading';
     for (let reservation of this.reservations) {
       if (reservation.workspace.id == workspace.id) {
-        return 'Reserved For ' + reservation.reservedFor.name;
+        //(this.reservations).css('background-color', 'red');
+       // return 'Reserved For ' + reservation.reservedFor.name.css('background-color', 'red');   //logic for color based on availability will go here
+        return 'Reserved For ' + reservation.reservedFor.name
       }
+
     }
-    return 'Open';
+
+    if (workspace.isPermanent === true)
+      return 'Permanently reserved for ' + workspace.permanentFor.name;
+    else return 'Open';
   }
 
-  getReservations() {
-    this.http
-      .get(this.baseURL + 'reservation', {
-        headers: this.headers,
-      })
-      .subscribe(
-        (response) => {
-          this.reservations = response;
-          this.selectedReservation = this.reservations[0];
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  }
-  
-  reserveWorkspace(workspace: any) {
+  /*
+		I Think this was copied from the reservations-list component but it's not needed here?
+		- Ken
+	*/
+  // getReservations() {
+  //   this.http
+  //     .get(this.baseURL + 'reservation/' + this.uid, {
+  //       headers: this.headers,
+  //     })
+  //     .subscribe(
+  //       (response) => {
+  //         this.reservations = response;
+  //         this.selectedReservation = this.reservations[0];
+  //       },
+  //       (error) => {
+  //         console.log(error);
+  //       }
+  //     );
+  // }
+
+  reserveWorkspace(workspace: any, requestedID: any) {
+    if (requestedID === '') requestedID = this.uid;
+
     this.http
       .post(
         this.baseURL + 'reservation/' + this.selectedDate + '/' + workspace.id,
-        null,
+        JSON.stringify(requestedID),
         {
           headers: this.headers,
         }
@@ -152,11 +166,53 @@ export class DashboardComponent implements OnInit {
         (response) => {
           console.log('Reservation created in MongoDB');
           console.log(response);
-          this.checkAvailability(workspace);
-          this.getReservations();
+          this.getReservationsByDate(this.selectedDate, this.selectedOffice.id);
         },
         (error) => {
           console.log('Error: Reservation NOT created in MongoDB');
+          console.log(error);
+        }
+      );
+  }
+
+
+  makePermanent(workspace: any, requestedID: any) {
+    if (requestedID === '') requestedID = this.uid;
+
+    this.http
+      .put(
+        this.baseURL + 'workspace/' + workspace.id + '/' + requestedID,
+        null,
+        {
+          headers: this.headers,
+        }
+      )
+      .subscribe(
+        (response) => {
+          console.log('Workspace updated in MongoDB');
+          console.log(response);
+          this.getWorkspaces(this.selectedOffice.id);
+        },
+        (error) => {
+          console.log('Error: Workspace NOT updated in MongoDB');
+          console.log(error);
+        }
+      );
+  }
+
+  removePermanent(workspace: any) {
+    this.http
+      .put(this.baseURL + 'workspace/' + workspace.id, null, {
+        headers: this.headers,
+      })
+      .subscribe(
+        (response) => {
+          console.log('Workspace updated in MongoDB');
+          console.log(response);
+          this.getWorkspaces(this.selectedOffice.id);
+        },
+        (error) => {
+          console.log('Error: Workspace NOT updated in MongoDB');
           console.log(error);
         }
       );
