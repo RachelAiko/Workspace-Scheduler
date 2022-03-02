@@ -38,10 +38,17 @@ namespace MongoDBWebAPI.Services
 			return newUser;
 		}
 
+		public async Task<List<User>> GetAll()
+		{
+			List<User> users;
+			users = await _users.Find(usr => true).ToListAsync();
+			return users;
+		}
+
 		public async Task<Object> Query(string searchString)
 		{
 			var filter = Builders<User>.Filter.Empty;
-			if(!string.IsNullOrEmpty(searchString))
+			if (!string.IsNullOrEmpty(searchString))
 			{
 				//Filter searches through the Database for Name and/or Email
 				filter = Builders<User>.Filter.Regex("Name", new BsonRegularExpression(searchString, "i")) |
@@ -49,7 +56,7 @@ namespace MongoDBWebAPI.Services
 
 			}
 			List<User> userList = await _users.Find(filter).ToListAsync();
-			if(userList.Count == 0)
+			if (userList.Count == 0)
 			{
 				return null;
 			}

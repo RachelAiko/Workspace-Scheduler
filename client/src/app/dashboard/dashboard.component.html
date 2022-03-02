@@ -11,7 +11,7 @@
 <app-navbar></app-navbar>
 
 <body>
-	
+
 	<!-- Dashboard Content -->
 	<div class="container-fluid">
 		<div class="row">
@@ -20,14 +20,14 @@
 				<h2>Reservation Dashboard</h2>
 
 				<label for="reservationlocation">Office Location </label><br>
-						
+
 				<label for="currentSelection">Current Selection </label><br>
 				<select class="browser-default custom-select" (change)="selectOffice($event)">
-					<option *ngFor="let office of offices;let indexOfOffice=index;"
-						[attr.selected]="office == 0 ? true : null" value="{{ indexOfOffice }}">{{
+					<option *ngFor="let office of offices;let indexOfOffice=index;" [attr.selected]="office == 0 ? true : null"
+						value="{{ indexOfOffice }}">{{
 						office.name }}</option>
 				</select>
-				
+
 				<br><br>
 
 				<form #dateselect="ngForm" (ngSubmit)="selectDate(dateselect.value)">
@@ -43,7 +43,7 @@
 					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th scope="col">Workspace <br>  {{selectedOffice.name}} </th>
+								<th scope="col">Workspace <br> {{selectedOffice.name}} </th>
 								<th scope="col">Availability <br> {{selectedDate}} </th>
 
 							</tr>
@@ -57,9 +57,15 @@
 								</th>
 								<td>{{checkAvailability(workspace)}}
 									<br>
-									<input type="button" value="Reserve" (click)="reserveWorkspace(workspace, requestedID.value)" />
-									<input type="text" name="requestedID" #requestedID placeholder="requested ID" />
-									<input type="button" value="Make Permanent" (click)="makePermanent(workspace, requestedID.value)" />
+									<input type="button" value="Reserve"
+										(click)="reserveWorkspace(workspace, selectedUser === null ? null : selectedUser.authID)" />
+									<select class="browser-default custom-select" (change)="selectUser($event)">
+										<option [value]=null>Reserve for...</option>
+										<option *ngFor="let user of users;let indexOfUser=index;" [attr.selected]="user == 0 ? true : null"
+											value="{{ indexOfUser }}">{{
+											user.name }}</option>
+									</select>
+									<input type="button" value="Make Permanent" (click)="makePermanent(workspace, selectedUser.authID)" />
 									<input type="button" value="Remove Permanent" (click)="removePermanent(workspace)" />
 								</td>
 							</tr>
@@ -78,15 +84,17 @@
 						<!-- Modal Header -->
 						<div class="modal-header">
 							<h4 class="modal-title">Workspace Information</h4>
-							<button type="button" class="btn-close" data-bs-toggle="tooltip" title="Workspace information"data-bs-dismiss="modal"></button>
+							<button type="button" class="btn-close" data-bs-toggle="tooltip" title="Workspace information"
+								data-bs-dismiss="modal"></button>
 						</div>
 
 						<!-- Modal body -->
 						<div class="modal-body">
 							<div class="col-md-5 p-3">
-								<img src="https://icon-library.com/images/desk-icon/desk-icon-28.jpg" alt="workspace image" width="200" height="200">
+								<img src="https://icon-library.com/images/desk-icon/desk-icon-28.jpg" alt="workspace image" width="200"
+									height="200">
 							</div>
-							
+
 							<div class="col-md-7 p-3"> Capacity: //workspace capacity
 								<br> Equipment: //workspace features
 								<br> Notes: //workspace issues or notes
@@ -103,9 +111,10 @@
 
 					</div>
 				</div>
-			</div> <!--- End Workspace information modal-->	
+			</div>
+			<!--- End Workspace information modal-->
 
 		</div>
 	</div> <!-- End Dashboard Content -->
-	
+
 </body>
