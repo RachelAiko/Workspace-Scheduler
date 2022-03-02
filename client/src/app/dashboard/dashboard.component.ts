@@ -4,7 +4,6 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormControl } from '@angular/forms';
 
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -13,19 +12,19 @@ import { FormControl } from '@angular/forms';
 export class DashboardComponent implements OnInit {
   baseURL: any;
   headers: any;
-  offices: any;
-  selectedOffice: any;
-  workspaces: any;
-  selectedWorkspace: any;
-  selectedDate: any;
-  selectedReservation: any;
   uid: any;
+  offices: any;
+  users: any;
+  workspaces: any;
   reservations: any;
-
+  selectedOffice: any;
+  selectedUser: any;
+  selectedWorkspace: any;
+  selectedReservation: any;
+  selectedDate: any;
 
   // today = new Date().toLocaleDateString('en-US');
   today = new Date().toISOString().split('T')[0];
-
 
   // Do we need this?
   date = new FormControl(new Date());
@@ -38,6 +37,7 @@ export class DashboardComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.SetHeaders();
     this.getAllOffices();
+    this.getUsers();
     this.selectedDate = this.today;
   }
 
@@ -77,6 +77,22 @@ export class DashboardComponent implements OnInit {
   selectOffice(event: any) {
     this.selectedOffice = this.offices[event.target.value];
     this.getWorkspaces(this.selectedOffice.id);
+  }
+
+  getUsers() {
+    this.http.get(this.baseURL + 'user', { headers: this.headers }).subscribe(
+      (response) => {
+        this.users = response;
+        this.selectedUser = null;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  selectUser(event: any) {
+    this.selectedUser = this.users[event.target.value];
   }
 
   selectDate(data: any) {
@@ -120,10 +136,9 @@ export class DashboardComponent implements OnInit {
     for (let reservation of this.reservations) {
       if (reservation.workspace.id == workspace.id) {
         //(this.reservations).css('background-color', 'red');
-       // return 'Reserved For ' + reservation.reservedFor.name.css('background-color', 'red');   //logic for color based on availability will go here
-        return 'Reserved For ' + reservation.reservedFor.name
+        // return 'Reserved For ' + reservation.reservedFor.name.css('background-color', 'red');   //logic for color based on availability will go here
+        return 'Reserved For ' + reservation.reservedFor.name;
       }
-
     }
 
     if (workspace.isPermanent === true)
@@ -131,28 +146,8 @@ export class DashboardComponent implements OnInit {
     else return 'Open';
   }
 
-  /*
-		I Think this was copied from the reservations-list component but it's not needed here?
-		- Ken
-	*/
-  // getReservations() {
-  //   this.http
-  //     .get(this.baseURL + 'reservation/' + this.uid, {
-  //       headers: this.headers,
-  //     })
-  //     .subscribe(
-  //       (response) => {
-  //         this.reservations = response;
-  //         this.selectedReservation = this.reservations[0];
-  //       },
-  //       (error) => {
-  //         console.log(error);
-  //       }
-  //     );
-  // }
-
   reserveWorkspace(workspace: any, requestedID: any) {
-    if (requestedID === '') requestedID = this.uid;
+    if (requestedID === null) requestedID = this.uid;
 
     this.http
       .post(
@@ -175,10 +170,8 @@ export class DashboardComponent implements OnInit {
       );
   }
 
-
   makePermanent(workspace: any, requestedID: any) {
-    if (requestedID === '') requestedID = this.uid;
-
+    if (requestedID === null) requestedID = this.uid;
     this.http
       .put(
         this.baseURL + 'workspace/' + workspace.id + '/' + requestedID,

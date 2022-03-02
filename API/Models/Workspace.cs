@@ -14,5 +14,7 @@ namespace MongoDBWebAPI.Models
 		public bool IsPermanent { get; set; }
 		public User PermanentFor { get; set; }
 
+		public string[] Issues { get; set; }
+
 	}
 }
