@@ -9,6 +9,7 @@ import { ReservationsListComponent } from './reservations-list/reservations-list
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
 import { AuthGuard } from './services/auth.guard';
+import { NavbarComponent } from './navbar/navbar.component';
 
 const routes: Routes = [
   
@@ -17,6 +18,11 @@ const routes: Routes = [
   //  { path: 'user-profle', component: UserProfileComponent},
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'signup', component: SignupComponent },
+  {
+    path: 'navbar',
+    component: NavbarComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'dashboard',
     component: DashboardComponent,
