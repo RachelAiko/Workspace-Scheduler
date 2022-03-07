@@ -3,6 +3,7 @@ import { CssSelector } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormControl } from '@angular/forms';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,12 +24,9 @@ export class DashboardComponent implements OnInit {
   selectedReservation: any;
   selectedDate: any;
 
-  // today = new Date().toLocaleDateString('en-US');
   today = new Date().toISOString().split('T')[0];
-
-  // Do we need this?
-  date = new FormControl(new Date());
-  serializedDate = new FormControl(new Date().toISOString());
+  minDate = new Date();
+  maxDate = new Date(2022, 11, 31);
 
   constructor(public afAuth: AngularFireAuth, private http: HttpClient) {
     this.baseURL = 'https://localhost:5001/api/';
