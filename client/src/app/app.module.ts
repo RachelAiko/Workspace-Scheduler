@@ -26,6 +26,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
 import { ReservationsListComponent } from './reservations-list/reservations-list.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ReservationsListComponent } from './reservations-list/reservations-list
     ForgotPasswordComponent,
     ReservationsListComponent,
     UserProfileComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,

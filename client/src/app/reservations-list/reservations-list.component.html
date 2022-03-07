@@ -1,18 +1,22 @@
+<app-navbar></app-navbar>
+
 <div class="m-2 p-2 list-group">
 	<div class="list-group-item bg-secondary text-white">
 		<div style="font-weight: bold;" class="d-flex align-items-center">
-			<div style="width: 25%" class="">Date</div>
-			<div style="width: 25%" class="">Office Location</div>
-			<div style="width: 20%" class="">Workspace</div>
+			<div style="width: 20%" class="">Reserved For</div>
+			<div style="width: 20%" class="">Date</div>
+			<div style="width: 20%" class="">Office Location</div>
+			<div style="width: 15%" class="">Workspace</div>
 		</div>
 	</div>
 
 	<button *ngFor="let reservation of reservations" (click)=selectReservation(reservation)
 		class="link list-group-item list-group-item-action" [class.active]="selectedReservation === reservation">
 		<div class="d-flex align-items-center bd-highlight">
-			<div style="width: 25%" class="bd-highlight">{{reservation.date}}</div>
-			<div style="width: 25%" class="bd-highlight">{{reservation.workspace.office.name}}</div>
-			<div style="width: 20%" class="bd-highlight">{{reservation.workspace.workspaceType.name}}
+			<div style="width: 20%" class="bd-highlight">{{reservation.reservedFor.name}}</div>
+			<div style="width: 20%" class="bd-highlight">{{reservation.date}}</div>
+			<div style="width: 20%" class="bd-highlight">{{reservation.workspace.office.name}}</div>
+			<div style="width: 15%" class="bd-highlight">{{reservation.workspace.workspaceType.name}}
 				{{reservation.workspace.spaceNumber}}</div>
 			<div style="width: 25%" class="btn-group btn-group-sm"
 				[ngClass]="{hidden: !(selectedReservation === reservation)}" role="group" aria-label="Modify Reservation">

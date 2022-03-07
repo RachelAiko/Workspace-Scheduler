@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDBWebAPI.Models;
 using MongoDBWebAPI.Services;
 using System;
+using Newtonsoft.Json;
 
 namespace MongoDBWebAPI.Controllers
 {
@@ -27,6 +28,36 @@ namespace MongoDBWebAPI.Controllers
 			string email = user[1];
 			var usr = await _userService.CreateUser(name, authID, email);
 			return usr;
+		}
+
+		// GET All users from database (protected by user/role)
+		[HttpGet]
+		public async Task<IActionResult> GetUsers()
+		{
+			var user = await AuthorizeUser(Request);
+			string userID = user[0];
+			if (!await _userService.IsAdmin(userID))
+			{
+				return Unauthorized();
+			}
+			var userList = await _userService.GetAll();
+			return Ok(userList);
+		}
+
+		// GET users data from Query input string (protected by user/role)
+		[HttpGet("search")]
+		public async Task<IActionResult> Search
+		(
+			[FromQuery(Name = "searchString")] string searchString
+		)
+		{
+			var user = await AuthorizeUser(Request);
+			var userList = await _userService.Query(searchString);
+			if (userList == null)
+			{
+				return NotFound("No User Found");
+			}
+			return Ok(userList);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-<!-- Main dashboard page. Contains navbar and workspace availability content -->
+<!-- Main dashboard page workspace reservation availability, reserve, etc content -->
 <!DOCTYPE html>
 <html>
 
@@ -8,70 +8,9 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
+<app-navbar></app-navbar>
+
 <body>
-	<!-- Navbar -->
-	<nav class="navbar navbar-expand-lg navbar-light">
-		<div class="container-fluid gradient-custom-2 ">
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item">
-						<a class="nav-link active" href="#" aria-current="page" href="#">Home</a>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-							aria-expanded="false">
-							Office Location
-						</a>
-						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<label>Current Selection</label>
-							<li><select class="browser-default custom-select" (change)="selectOffice($event)">
-									<option *ngFor="let office of offices;let indexOfOffice=index;"
-										[attr.selected]="office == 0 ? true : null" value="{{ indexOfOffice }}">{{
-										office.name }}</option>
-								</select></li>
-						</ul>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-							aria-expanded="false">
-							Reservations
-						</a>
-						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" routerLink="/reservations">Manage Reservations</a></li>
-						</ul>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-							aria-expanded="false">
-							<i class='fas fa-user-astronaut'> <img
-									src="https://icon-library.com/images/username-icon-png/username-icon-png-19.jpg" width="30"
-									height="30" class="rounded-circle"></i> Profile </a>
-						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" routerLink="/user-profile">My Account</a></li>
-
-						</ul>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link active" href="#" aria-expanded="false" href="#" (click)="logout()">Log
-							out</a>
-
-					</li>
-				</ul>
-			</div>
-			<!-- CallMiner Logo -->
-			<div class="text-right">
-				<a class="navbar-brand" href="#">
-					<img
-						src="https://images.ctfassets.net/xj0skx6m69u2/cFRNy2dkU6bRc2iRmk7tF/6f1fc904dea9217c746c0b5cfd9eaa32/Logo_CallMiner_Color.svg"
-						alt=""></a>
-			</div>
-		</div>
-	</nav>
-
 
 	<!-- Dashboard Content -->
 	<div class="container-fluid">
@@ -80,14 +19,24 @@
 
 				<h2>Reservation Dashboard</h2>
 
-				<label for="reservationlocation">Office Location <br> {{selectedOffice?.name}} </label>
+				<label for="reservationlocation">Office Location </label><br>
+
+				<label for="currentSelection">Current Selection </label><br>
+				<select class="browser-default custom-select" (change)="selectOffice($event)">
+					<option *ngFor="let office of offices;let indexOfOffice=index;" [attr.selected]="office == 0 ? true : null"
+						value="{{ indexOfOffice }}">{{
+						office.name }}</option>
+				</select>
+
 				<br><br>
 
 				<form #dateselect="ngForm" (ngSubmit)="selectDate(dateselect.value)">
-					<label for="reservationdate">Select Date of Reservation</label>
+					<label for="reservationdate">Select Date of Reservation </label>
 					<input type="date" name="date" id="reservationdate" ngModel>
 					<input type="submit" value="submit">
 				</form>
+
+				<br>
 
 				<!-- Main Content Section (where workspace view will go)-->
 				<div class="table-responsive">
@@ -108,9 +57,15 @@
 								</th>
 								<td>{{checkAvailability(workspace)}}
 									<br>
-									<input type="button" value="Reserve" (click)="reserveWorkspace(workspace, requestedID.value)" />
-									<input type="text" name="requestedID" #requestedID placeholder="requested ID" />
-									<input type="button" value="Make Permanent" (click)="makePermanent(workspace, requestedID.value)" />
+									<input type="button" value="Reserve"
+										(click)="reserveWorkspace(workspace, selectedUser === null ? null : selectedUser.authID)" />
+									<select class="browser-default custom-select" (change)="selectUser($event)">
+										<option [value]=null>Reserve for...</option>
+										<option *ngFor="let user of users;let indexOfUser=index;" [attr.selected]="user == 0 ? true : null"
+											value="{{ indexOfUser }}">{{
+											user.name }}</option>
+									</select>
+									<input type="button" value="Make Permanent" (click)="makePermanent(workspace, selectedUser.authID)" />
 									<input type="button" value="Remove Permanent" (click)="removePermanent(workspace)" />
 								</td>
 							</tr>
@@ -118,13 +73,8 @@
 					</table>
 				</div>
 
-				<!-- Reservations list of current user -->
-				<app-reservations-list></app-reservations-list>
-
-				<!-- Profile of current user -->
-				<app-user-profile></app-user-profile>
-
 			</div>
+
 			<!-- Workspace information modal  -->
 			<!-- TODO: needs to be dynamic based on selected space -->
 			<div class="modal" id="infoModal">
@@ -144,12 +94,10 @@
 								<img src="https://icon-library.com/images/desk-icon/desk-icon-28.jpg" alt="workspace image" width="200"
 									height="200">
 							</div>
-							<div class="col-md-7 p-3">
-								Capacity: //workspace capacity
-								<br>
-								Equipment: //workspace features
-								<br>
-								Notes: //workspace issues or notes
+
+							<div class="col-md-7 p-3"> Capacity: //workspace capacity
+								<br> Equipment: //workspace features
+								<br> Notes: //workspace issues or notes
 							</div>
 						</div>
 
@@ -164,6 +112,9 @@
 					</div>
 				</div>
 			</div>
+			<!--- End Workspace information modal-->
+
 		</div>
-	</div>
+	</div> <!-- End Dashboard Content -->
+
 </body>
