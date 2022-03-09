@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { Router } from '@angular/router';
 
 import { DataService } from '../../services/data.service';
 
@@ -21,15 +22,21 @@ export class DashboardComponent implements OnInit {
   today = new Date();
   maxDate = new Date(2022, 11, 31);
 
-  constructor(public dataService: DataService) {}
+  constructor(public dataService: DataService, private router: Router) {}
 
   ngOnInit() {
-    this.selectedDate = new Date(
-      this.today.getTime() - this.today.getTimezoneOffset() * 60000
-    );
+    if (history.state.date === undefined) {
+      this.selectedDate = new Date(
+        this.today.getTime() - this.today.getTimezoneOffset() * 60000
+      );
+    } else {
+      this.selectedDate = history.state.date;
+    }
     this.dataService.getReservationsByDate(this.selectedDate);
     this.selectedUser = null;
     this.dataService.offices$.subscribe((offices) => {
+      if (history.state.office !== undefined)
+        this.selectedOffice = history.state.office;
       if (this.selectedOffice === undefined) this.selectedOffice = offices[0];
     });
   }

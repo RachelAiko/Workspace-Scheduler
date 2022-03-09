@@ -30,6 +30,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 
 /* ADDED */
 import { DataService } from './services/data.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 /****************** */
 
 @NgModule({
@@ -66,6 +67,8 @@ import { DataService } from './services/data.service';
 
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
+
+    NgxPaginationModule,
   ],
   providers: [DataService],
   bootstrap: [AppComponent],

@@ -166,6 +166,22 @@ export class DataService {
       });
   }
 
+  filterReservations(searchString: any): Reservation[] {
+    return this.reservations.filter((rsv: any) => {
+      const regex = new RegExp(searchString, 'gi');
+      return (
+        rsv.date.match(regex) ||
+        rsv.reservedFor.name.match(regex) ||
+        rsv.reservedFor.email.match(regex) ||
+        rsv.workspace.office.name.match(regex) ||
+        rsv.workspace.workspaceType.name.match(regex) ||
+        rsv.workspace.workspaceType.name
+          .concat(' ', rsv.workspace.spaceNumber.toString())
+          .match(regex)
+      );
+    });
+  }
+
   getReservationsByDate(date: any) {
     this.loading = true;
     this.http

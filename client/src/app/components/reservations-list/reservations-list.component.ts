@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
 
 @Component({
@@ -7,17 +8,36 @@ import { DataService } from '../../services/data.service';
   styleUrls: ['./reservations-list.component.css'],
 })
 export class ReservationsListComponent implements OnInit {
+  searchString: string = '';
+  reservations: any;
   selectedReservation: any;
+  p: number = 1;
+  count: number = 20;
 
-  constructor(public dataService: DataService) {}
+  constructor(public dataService: DataService, private router: Router) {}
 
   ngOnInit() {
-    this.dataService.reservations$.subscribe((rsv) => {
-      this.selectedReservation = rsv[0];
+    this.dataService.reservations$.subscribe((rsv) => this.search(null));
+  }
+
+  selectReservation(reservation: any) {
+    this.selectedReservation = reservation;
+  }
+
+  viewReservation(reservation: any) {
+    let date = new Date(reservation.date);
+    this.router.navigate(['/dashboard'], {
+      state: { date: date, office: reservation.workspace.office },
     });
   }
 
-  selectReservation(reservation: any): void {
-    this.selectedReservation = reservation;
+  search(event: any) {
+    if (event === null)
+      this.reservations = this.dataService.filterReservations('');
+    else
+      this.reservations = this.dataService.filterReservations(
+        event.target.value
+      );
+    this.selectedReservation = this.reservations[0];
   }
 }

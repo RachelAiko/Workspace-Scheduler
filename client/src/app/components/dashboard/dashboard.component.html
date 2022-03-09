@@ -22,7 +22,9 @@
 				<label for="currentSelection">Current Selection </label><br />
 				<select class="browser-default custom-select" (change)="selectOffice($event)">
 					<option *ngFor="let office of dataService.offices$ | async;let indexOfOffice=index;"
-						[attr.selected]="indexOfOffice == 0 ? true : null" value="{{ indexOfOffice }}">{{ office.name }}</option>
+						[attr.selected]="office.name == selectedOffice?.name ? true : null" value="{{ indexOfOffice }}">{{
+						office.name }}
+					</option>
 				</select>
 
 				<br />
@@ -36,11 +38,6 @@
 				<br />
 				<br />
 				<!-- </form> -->
-
-				<br />
-
-				<p>This min date : {{today}}</p>
-				<p>This max date : {{maxDate}}</p>
 			</div>
 			<div class="col">
 				<!-- Main Content Section (where workspace view will go)-->
