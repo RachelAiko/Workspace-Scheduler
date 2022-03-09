@@ -53,6 +53,7 @@
 								<button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#infoModal">
 									<i class="fa fa-info-circle"></i>
 								</button> <br />
+								<span>{{checkAvailability(workspace)}}</span><br />
 								<input type="button" value="Reserve"
 									(click)="dataService.postReservation(this.selectedDate, workspace, selectedUser === null ? null : selectedUser.authID)" />
 							</th>
