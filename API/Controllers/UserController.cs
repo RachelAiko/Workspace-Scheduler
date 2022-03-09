@@ -44,6 +44,16 @@ namespace MongoDBWebAPI.Controllers
 			return Ok(userList);
 		}
 
+		// GET Current user from database (protected)
+		[HttpGet("me")]
+		public async Task<IActionResult> GetCurrentUser()
+		{
+			var user = await AuthorizeUser(Request);
+			string userID = user[0];
+			var currentUser = await _userService.GetCurrentUser(userID);
+			return Ok(currentUser);
+		}
+
 		// GET users data from Query input string (protected by user/role)
 		[HttpGet("search")]
 		public async Task<IActionResult> Search

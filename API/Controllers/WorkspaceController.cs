@@ -21,11 +21,11 @@ namespace MongoDBWebAPI.Controllers
 		}
 
 		// GET all workspaces for specific office (protected general)
-		[HttpGet("{officeID}")]
-		public async Task<ActionResult<List<Workspace>>> Get(string officeID)
+		[HttpGet]
+		public async Task<ActionResult<List<Workspace>>> Get()
 		{
 			AuthorizeRequest(Request);
-			var wrk = await _workspaceService.Get(officeID);
+			var wrk = await _workspaceService.Get();
 			return wrk;
 		}
 

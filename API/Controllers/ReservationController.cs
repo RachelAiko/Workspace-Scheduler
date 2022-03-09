@@ -76,17 +76,19 @@ namespace MongoDBWebAPI.Controllers
 		}
 
 		// GET all reservations for specific date (protected general)
-		[HttpGet("ByDate/{date}/{officeID}")]
-		public async Task<ActionResult<List<Reservation>>> GetReservationsByDate(string date, string officeID)
+		[HttpGet("search")]
+		public async Task<ActionResult<List<Reservation>>> SearchReservations(
+			[FromQuery(Name = "date")] DateTime date
+		)
 		{
 			AuthorizeRequest(Request);
-			var rsv = await _reservationService.GetReservationsByDate(date, officeID);
+			var rsv = await _reservationService.GetReservationsByDate(date);
 			return rsv;
 		}
 
 		// POST a new reservation for a user (protected per user/role)
 		[HttpPost("{date}/{workspaceID}")]
-		public async Task<ActionResult<Reservation>> CreateReservation(string date, string workspaceID, [FromBody] string reservedForID)
+		public async Task<ActionResult<Reservation>> CreateReservation(DateTime date, string workspaceID, [FromBody] string reservedForID)
 		{
 			var user = await AuthorizeUser(Request);
 			string creatorID = user[0];
@@ -122,8 +124,8 @@ namespace MongoDBWebAPI.Controllers
 			{
 				return Unauthorized();
 			}
-			rsv = await _reservationService.DeleteReservation(reservationID);
-			return rsv;
+			await _reservationService.DeleteReservation(reservationID);
+			return NoContent();
 		}
 
 		/*Deprecated Error / Exception Handler Method

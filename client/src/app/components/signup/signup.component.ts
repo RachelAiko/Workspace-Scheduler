@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -25,6 +25,11 @@ export class SignupComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.afAuth.onAuthStateChanged((user: any) => {
+      if (user) {
+        this.router.navigate(['/dashboard']);
+      }
+    });
     this.signupForm = new FormGroup({
       displayName: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -52,18 +57,18 @@ export class SignupComponent implements OnInit {
 
   createNewUser(displayName: string): Promise<void> {
     return new Promise((resolve, reject) => {
-			// on auth state change
+      // on auth state change
       this.afAuth.onAuthStateChanged((user) => {
-				// if user exists
+        // if user exists
         if (user) {
-					// get JWT
+          // get JWT
           user.getIdToken().then((idToken) => {
-						// Store headers in variable
+            // Store headers in variable
             var headers = new HttpHeaders()
               .set('content-type', 'application/json')
               .set('Authorization', idToken);
 
-						// post request to backend
+            // post request to backend
             this.http
               .post(
                 'https://localhost:5001/api/user',
