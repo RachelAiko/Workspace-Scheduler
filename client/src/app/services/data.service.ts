@@ -152,8 +152,26 @@ export class DataService {
       });
   }
 
+  // For dashboard v1
   filterWorkspaces(office: any): Workspace[] {
     return this.workspaces.filter((wrk: any) => wrk.office.id === office.id);
+  }
+
+  // For dashboard v2
+  filterDesks(office: any): Workspace[] {
+    return this.workspaces.filter(
+      (wrk: any) =>
+        wrk.office.id === office.id && wrk.workspaceType.name === 'Desk'
+    );
+  }
+
+  // For dashboard v2
+  filterConferenceRooms(office: any): Workspace[] {
+    return this.workspaces.filter(
+      (wrk: any) =>
+        wrk.office.id === office.id &&
+        wrk.workspaceType.name === 'Conference Room'
+    );
   }
 
   getReservations() {
@@ -164,6 +182,22 @@ export class DataService {
         this.reservations = reservations;
         this.loading = false;
       });
+  }
+
+  filterReservations(searchString: any): Reservation[] {
+    return this.reservations.filter((rsv: any) => {
+      const regex = new RegExp(searchString, 'gi');
+      return (
+        rsv.date.match(regex) ||
+        rsv.reservedFor.name.match(regex) ||
+        rsv.reservedFor.email.match(regex) ||
+        rsv.workspace.office.name.match(regex) ||
+        rsv.workspace.workspaceType.name.match(regex) ||
+        rsv.workspace.workspaceType.name
+          .concat(' ', rsv.workspace.spaceNumber.toString())
+          .match(regex)
+      );
+    });
   }
 
   getReservationsByDate(date: any) {
@@ -279,5 +313,12 @@ export class DataService {
       };
     }
     this.workspaces = [...this.workspaces];
+  }
+
+  isAvailable(workspace: any) {
+    for (let reservation of this.reservationsByDate) {
+      if (reservation.workspace.id === workspace.id) return false;
+    }
+    return true;
   }
 }

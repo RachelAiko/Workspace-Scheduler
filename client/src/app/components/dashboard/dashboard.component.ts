@@ -24,12 +24,18 @@ export class DashboardComponent implements OnInit {
   constructor(public dataService: DataService) {}
 
   ngOnInit() {
-    this.selectedDate = new Date(
-      this.today.getTime() - this.today.getTimezoneOffset() * 60000
-    );
+    if (history.state.date === undefined) {
+      this.selectedDate = new Date(
+        this.today.getTime() - this.today.getTimezoneOffset() * 60000
+      );
+    } else {
+      this.selectedDate = history.state.date;
+    }
     this.dataService.getReservationsByDate(this.selectedDate);
     this.selectedUser = null;
     this.dataService.offices$.subscribe((offices) => {
+      if (history.state.office !== undefined)
+        this.selectedOffice = history.state.office;
       if (this.selectedOffice === undefined) this.selectedOffice = offices[0];
     });
   }
