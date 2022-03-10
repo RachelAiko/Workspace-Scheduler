@@ -43,7 +43,7 @@ const routes: Routes = [
     component: UserProfileComponent,
     canActivate: [AuthGuard],
   },
-  { path: '**', component: HomeComponent }, // catch-all in case no other path matched
+  { path: '**', component: DashboardComponent }, // catch-all in case no other path matched
 ];
 
 @NgModule({
