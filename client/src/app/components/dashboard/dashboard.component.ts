@@ -32,7 +32,9 @@ export class DashboardComponent implements OnInit {
       this.selectedDate = history.state.date;
     }
     this.dataService.getReservationsByDate(this.selectedDate);
-    this.selectedUser = null;
+    this.dataService.currentUser$.subscribe((usr) => {
+      this.selectedUser = usr;
+    });
     this.dataService.offices$.subscribe((offices) => {
       if (history.state.office !== undefined)
         this.selectedOffice = history.state.office;
@@ -66,5 +68,17 @@ export class DashboardComponent implements OnInit {
       }
     }
     return 'Open';
+  }
+
+  getColor(workspace: any): string {
+    if (workspace.isPermanent) {
+      return 'rgba(219, 50, 54, 0.7)';
+    } else {
+      if (this.dataService.isAvailable(workspace)) {
+        return 'rgba(60, 186, 84, 0.7)';
+      } else {
+        return 'rgba(244, 194, 13, 0.7)';
+      }
+    }
   }
 }

@@ -15,6 +15,7 @@ export class DataService {
   private _httpOptions: any = {};
 
   private readonly _currentUser = new BehaviorSubject<User | null>(null);
+  readonly currentUser$ = this._currentUser.asObservable();
   get currentUser(): any {
     return this._currentUser.getValue();
   }
@@ -233,6 +234,9 @@ export class DataService {
           console.log('Reservation created in MongoDB');
           console.log(response);
           this.reservations = [response, ...this.reservations];
+          this.reservations = this.reservations.sort(
+            (rsv1: any, rsv2: any) => new Date(rsv1.date) > new Date(rsv2.date)
+          );
           this.reservationsByDate = [response, ...this.reservationsByDate];
         },
         (error) => {
@@ -251,7 +255,6 @@ export class DataService {
       .subscribe(
         (response) => {
           console.log('Reservation successfully deleted');
-          console.log(response);
           this.reservations = this.reservations.filter(
             (rsv: any) => rsv !== reservation
           );
@@ -265,6 +268,7 @@ export class DataService {
 
   makePermanent(workspace: any, requestedID: any) {
     if (requestedID === null) requestedID = this.currentUser.authID;
+    console.log(workspace.id);
     this.http
       .put(
         this._baseUrl + 'workspace/' + workspace.id + '/' + requestedID,
@@ -276,6 +280,9 @@ export class DataService {
           console.log('Workspace updated in MongoDB');
           console.log(response);
           this.updateWorkspace(response);
+          this.reservations = this.reservations.filter(
+            (rsv: any) => rsv.workspace.id != workspace.id
+          );
         },
         (error) => {
           console.log('Error: Workspace NOT updated in MongoDB');
