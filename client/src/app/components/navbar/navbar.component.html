@@ -1,0 +1,55 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light">
+	<div class="container-fluid gradient-custom-2 ">
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+						aria-expanded="false">
+						Dashboard
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<li><a class="dropdown-item" routerLink="/dashboard">Make a Reservation</a></li>
+						<li><a class="dropdown-item" routerLink="/dashboardv2">View Dashboard v2</a></li>
+					</ul>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+						aria-expanded="false">
+						Reservations
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<li><a class="dropdown-item" routerLink="/reservations">Manage Reservations</a></li>
+					</ul>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+						aria-expanded="false">
+						<i class='fas fa-user-astronaut'> <img
+								src="https://icon-library.com/images/username-icon-png/username-icon-png-19.jpg" width="30" height="30"
+								class="rounded-circle"></i> Profile </a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<li><a class="dropdown-item" routerLink="/user-profile">My Account</a></li>
+
+					</ul>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link active" href="#" aria-expanded="false" href="#" (click)="logout()">Log
+						out</a>
+
+				</li>
+			</ul>
+		</div>
+		<!-- CallMiner Logo -->
+		<div class="text-right">
+			<a class="navbar-brand" href="#">
+				<img
+					src="https://images.ctfassets.net/xj0skx6m69u2/cFRNy2dkU6bRc2iRmk7tF/6f1fc904dea9217c746c0b5cfd9eaa32/Logo_CallMiner_Color.svg"
+					alt=""></a>
+		</div>
+	</div>
+</nav>

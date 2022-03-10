@@ -1,0 +1,28 @@
+html, body {
+  max-width: 100%; 
+  text-align: center;
+}
+
+form{
+  display: inline-block;
+}
+
+.row {
+  display: flex; /* equal height of the children */
+}
+
+.col {
+	background: rgb(255, 255, 255);
+  border: solid;
+}
+
+.mat-calendar{
+  display: inline-block;
+  align-content: center;
+  width: 250px !important;
+  height: 250px !important;
+}
+
+th, td{
+  text-align: center;
+}

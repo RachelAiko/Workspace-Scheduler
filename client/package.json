@@ -22,12 +22,13 @@
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
     "bootstrap": "^3.4.1",
+    "firebase": "^9.4.0",
+    "jquery-datepicker": "^1.12.3",
+    "ngx-pagination": "^5.1.1",
+    "rxfire": "^6.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4",
-    "firebase": "^9.4.0",
-    "rxfire": "^6.0.0",
-    "jquery-datepicker": "^1.12.3"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.2.12",

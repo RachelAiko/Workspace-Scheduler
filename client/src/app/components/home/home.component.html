@@ -1,0 +1,78 @@
+<!-- Home/Landing Page. Contains the user login form -->
+<!-- Login form -->
+<!-- Design Card -->
+<section class="h-100 gradient-form" style="background-color: rgb(223, 220, 228);">
+	<div class="container py-5 h-100">
+		<div class="row d-flex justify-content-center align-items-center h-100">
+			<div class="col-xl-10">
+				<div class="card rounded-3 text-black">
+					<div class="row g-0">
+						<div class="col-lg-6 d-flex align-items-center gradient-custom-2">
+							<div class="text-white px-3 py-4 p-md-5 mx-md-4">
+								<h1 class="mb-1">Workspace Scheduler</h1>
+								<h4 class="mb-4">CallMiner sponsored senior capstone project</h4>
+								<h5 class="mb-5">Creators - Brendan Chase, Gant Innes, Rachel Matthews, Ken
+									Orsini </h5>
+								<button mat-raised-button color="black" routerLink="/dashboard">
+									Dashboard
+								</button>
+							</div>
+						</div>
+
+						<!-- Login Card -->
+						<div class="col-lg-6">
+							<div class="card-body p-md-5 mx-md-4">
+
+								<div class="text-center">
+									<img
+										src="https://images.ctfassets.net/xj0skx6m69u2/cFRNy2dkU6bRc2iRmk7tF/6f1fc904dea9217c746c0b5cfd9eaa32/Logo_CallMiner_Color.svg"
+										style="width: 185px;" alt="logo">
+									<h4 class="mt-1 mb-5 pb-1">Ready to schedule a space?</h4>
+								</div>
+								<!-- Login Form -->
+								<form [formGroup]="loginForm" (ngSubmit)="loginUser()" type=""
+									action="/examples/actions/confirmation.php" method="post">
+									<p>Please login to your account</p>
+
+									<div class="form-outline mb-4">
+										<input autocomplete="off" formControlName="email" type="email" size="47" matInput
+											placeholder="Email address" /><br>
+										<label class="form-label" for="form2Example11">Username</label>
+									</div>
+
+									<div class="form-outline mb-4">
+										<input autocomplete="off" formControlName="password" type="password" size="47" matInput
+											placeholder="Password" /><br>
+										<label class="form-label" for="form2Example22">Password</label>
+									</div>
+
+									<div *ngIf="firebaseErrorMessage != ''" class="error-style">
+										<span>{{ firebaseErrorMessage }}</span>
+									</div>
+									<!-- 
+                                        <button mat-raised-button color="primary"
+                                            class="btn btn-primary btn fa-lg gradient-custom-2 mb-3"
+                                            routerLink="/dashboard">Log in</button> -->
+
+									<button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3">Log
+										in</button>
+
+									<div class="text-center pt-1 mb-5 pb-1">
+										<a class="text-muted" type="button" routerLink="/forgot-password">Forgot
+											password?</a>
+									</div>
+
+									<div class="d-flex align-items-center justify-content-center pb-4">
+										<p class="mb-0 me-2">Don't have an account?</p>
+										<button type="button" class="btn btn-light" style="color:#d8363a" routerLink="/signup">Sign up
+											here!</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

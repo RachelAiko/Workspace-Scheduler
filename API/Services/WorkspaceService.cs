@@ -39,14 +39,14 @@ namespace MongoDBWebAPI.Services
 		}
 
 		// GET all workspaces for specific office (protected general)
-		public async Task<List<Workspace>> Get(string _officeID)
+		public async Task<List<Workspace>> Get()
 		{
 			List<Workspace> workspaces = null;
 			List<WorkspaceType> types = await _workspaceTypes.Find(wksp => true).ToListAsync();
 			int counter = 0;
 			foreach (WorkspaceType type in types)
 			{
-				List<Workspace> currentType = await _workspaces.Find(wrk => wrk.Office.Id == _officeID && wrk.WorkspaceType == type)
+				List<Workspace> currentType = await _workspaces.Find(wrk => true && wrk.WorkspaceType == type)
 					.Sort(new BsonDocument("SpaceNumber", 1)).ToListAsync();
 				if (counter == 0) workspaces = currentType;
 				else workspaces.AddRange(currentType);

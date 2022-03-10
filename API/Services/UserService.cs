@@ -45,6 +45,12 @@ namespace MongoDBWebAPI.Services
 			return users;
 		}
 
+		public async Task<User> GetCurrentUser(string _userID)
+		{
+			var user = await _users.Find(usr => usr.AuthID == _userID).SingleOrDefaultAsync();
+			return user;
+		}
+
 		public async Task<Object> Query(string searchString)
 		{
 			var filter = Builders<User>.Filter.Empty;

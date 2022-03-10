@@ -29,7 +29,6 @@ export class AuthGuard implements CanActivate {
         if (user) {
           // if (!user.emailVerified)                            // if the user hasn't verified their email, send them to that page
           //     this.router.navigate(['/verify-email']);
-
           resolve(true);
         } else {
           console.log('Auth Guard: user is not logged in');
