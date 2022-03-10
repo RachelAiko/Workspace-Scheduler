@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { Router } from '@angular/router';
 
 import { DataService } from '../../services/data.service';
 
@@ -22,7 +21,7 @@ export class DashboardComponent implements OnInit {
   today = new Date();
   maxDate = new Date(2022, 11, 31);
 
-  constructor(public dataService: DataService, private router: Router) {}
+  constructor(public dataService: DataService) {}
 
   ngOnInit() {
     if (history.state.date === undefined) {

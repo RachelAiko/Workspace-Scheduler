@@ -4,12 +4,12 @@ head {
 }
 
 body {
-  background-color: rgb(30, 32, 32);
+  background-color: rgb(255, 255, 255);
 }
 
 title {
   color: rgb(17, 16, 16);
-  text-align: center; 
+  text-align: center;
 }
 h1 {
   color: rgb(17, 16, 16);

@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { Dashboardv2Component } from './components/dashboardv2/dashboardv2.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ReservationsListComponent } from './components/reservations-list/reservations-list.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
@@ -25,6 +26,11 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'dashboardv2',
+    component: Dashboardv2Component,
     canActivate: [AuthGuard],
   },
   {

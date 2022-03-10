@@ -1,5 +1,3 @@
-<app-navbar></app-navbar>
-
 <div class="m-2 p-2">
 	<input (input)="search($event)" type="text" class="w-25" placeholder="Search" aria-label="Search" />
 </div>
@@ -37,7 +35,7 @@
 	</button>
 
 	<div class="text-center">
-		<pagination-controls *ngIf="reservations.length > 30" class="pagination" (pageChange)="p = $event">
+		<pagination-controls *ngIf="reservations.length > 20" class="pagination" (pageChange)="p = $event">
 		</pagination-controls>
 	</div>
 </div>

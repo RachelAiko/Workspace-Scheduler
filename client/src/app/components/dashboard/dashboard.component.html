@@ -1,129 +1,115 @@
 <!-- Main dashboard page workspace reservation availability, reserve, etc content -->
-<!DOCTYPE html>
-<html>
 
-<head>
-	<!-- icon library -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-</head>
+<!-- Dashboard Content -->
+<div class="container-fluid">
+	<div class="row">
+		<div class="col">
+			<h2>Reservation Dashboard</h2>
 
-<app-navbar></app-navbar>
+			<label for="reservationlocation">Office Location </label><br />
 
-<body>
-	<!-- Dashboard Content -->
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col">
-				<h2>Reservation Dashboard</h2>
+			<label for="currentSelection">Current Selection </label><br />
+			<select class="browser-default custom-select" (change)="selectOffice($event)">
+				<option *ngFor="let office of dataService.offices$ | async;let indexOfOffice=index;"
+					[attr.selected]="office.name == selectedOffice?.name ? true : null" value="{{ indexOfOffice }}">{{
+					office.name }}
+				</option>
+			</select>
 
-				<label for="reservationlocation">Office Location </label><br />
+			<br />
+			<br />
 
-				<label for="currentSelection">Current Selection </label><br />
-				<select class="browser-default custom-select" (change)="selectOffice($event)">
-					<option *ngFor="let office of dataService.offices$ | async;let indexOfOffice=index;"
-						[attr.selected]="office.name == selectedOffice?.name ? true : null" value="{{ indexOfOffice }}">{{
-						office.name }}
-					</option>
-				</select>
-
-				<br />
-				<br />
-
-				<!-- <form #dateselect="ngForm" (ngSubmit)="selectDate(dateselect.value)">
+			<!-- <form #dateselect="ngForm" (ngSubmit)="selectDate(dateselect.value)">
 					<label for="reservationdate">Select Date of Reservation </label><br /> -->
-				<mat-calendar [selected]="selectedDate" (selectedChange)="selectDate($event)" [minDate]="today"
-					[maxDate]="maxDate">
-				</mat-calendar><br />
-				<br />
-				<br />
-				<!-- </form> -->
+			<mat-calendar [selected]="selectedDate" (selectedChange)="selectDate($event)" [minDate]="today"
+				[maxDate]="maxDate">
+			</mat-calendar><br />
+			<br />
+			<br />
+			<!-- </form> -->
+		</div>
+		<div class="col">
+			<!-- Main Content Section (where workspace view will go)-->
+			<div class="table-responsive">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th scope="col">
+								Workspace <br />
+								{{selectedOffice?.name}}
+							</th>
+							<th scope="col">
+								Availability <br />
+								{{selectedDate.toISOString().split('T')[0]}}
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr mdbTableCol *ngFor="let workspace of dataService.filterWorkspaces(selectedOffice)">
+							<th scope="row">
+								{{workspace.workspaceType.name}} {{workspace.spaceNumber}} <br />
+								<button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#infoModal">
+									<i class="fa fa-info-circle"></i>
+								</button>
+							</th>
+							<td>
+								<span>{{checkAvailability(workspace)}}</span>
+								<br />
+								<input type="button" value="Reserve"
+									(click)="dataService.postReservation(this.selectedDate, workspace, selectedUser === null ? null : selectedUser.authID)" />
+								<select class="browser-default custom-select" (change)="selectUser($event)">
+									<option [value]="null">Reserve for...</option>
+									<option *ngFor="let user of dataService.users$ | async;let indexOfUser=index;"
+										value="{{ indexOfUser }}">{{ user.name }}
+									</option>
+								</select>
+								<input type="button" value="Make Permanent"
+									(click)="dataService.makePermanent(workspace, selectedUser === null ? null : selectedUser.authID)" />
+								<input type="button" value="Remove Permanent" (click)="dataService.removePermanent(workspace)" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
-			<div class="col">
-				<!-- Main Content Section (where workspace view will go)-->
-				<div class="table-responsive">
-					<table class="table table-bordered">
-						<thead>
-							<tr>
-								<th scope="col">
-									Workspace <br />
-									{{selectedOffice?.name}}
-								</th>
-								<th scope="col">
-									Availability <br />
-									{{selectedDate.toISOString().split('T')[0]}}
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr mdbTableCol *ngFor="let workspace of dataService.filterWorkspaces(selectedOffice)">
-								<th scope="row">
-									{{workspace.workspaceType.name}} {{workspace.spaceNumber}} <br />
-									<button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#infoModal">
-										<i class="fa fa-info-circle"></i>
-									</button>
-								</th>
-								<td>
-									<span>{{checkAvailability(workspace)}}</span>
-									<br />
-									<input type="button" value="Reserve"
-										(click)="dataService.postReservation(this.selectedDate, workspace, selectedUser === null ? null : selectedUser.authID)" />
-									<select class="browser-default custom-select" (change)="selectUser($event)">
-										<option [value]="null">Reserve for...</option>
-										<option *ngFor="let user of dataService.users$ | async;let indexOfUser=index;"
-											value="{{ indexOfUser }}">{{ user.name }}
-										</option>
-									</select>
-									<input type="button" value="Make Permanent"
-										(click)="dataService.makePermanent(workspace, selectedUser === null ? null : selectedUser.authID)" />
-									<input type="button" value="Remove Permanent" (click)="dataService.removePermanent(workspace)" />
-								</td>
-							</tr>
-						</tbody>
-					</table>
+		</div>
+	</div>
+
+	<!-- Workspace information modal  -->
+	<!-- TODO: needs to be dynamic based on selected space -->
+	<div class="modal" id="infoModal">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">Workspace Information</h4>
+					<button type="button" class="btn-close" data-bs-toggle="tooltip" title="Workspace information"
+						data-bs-dismiss="modal"></button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div class="col-md-5 p-3">
+						<img src="https://icon-library.com/images/desk-icon/desk-icon-28.jpg" alt="workspace image" width="200"
+							height="200" />
+					</div>
+
+					<div class="col-md-7 p-3">
+						Capacity: //workspace capacity <br />
+						Equipment: //workspace features <br />
+						Notes: //workspace issues or notes
+					</div>
+				</div>
+
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<!-- TODO: button to reserve displayed workspace -->
+					<button type="button" class="btn btn-primary btn fa-lg gradient-custom-2 mb-3 disabled">Reserve</button>
+					<button type="button" class="btn btn-primary btn fa-lg gradient-custom-2 mb-3"
+						data-bs-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
+	</div>
+	<!--- End Workspace information modal-->
 
-		<!-- Workspace information modal  -->
-		<!-- TODO: needs to be dynamic based on selected space -->
-		<div class="modal" id="infoModal">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<!-- Modal Header -->
-					<div class="modal-header">
-						<h4 class="modal-title">Workspace Information</h4>
-						<button type="button" class="btn-close" data-bs-toggle="tooltip" title="Workspace information"
-							data-bs-dismiss="modal"></button>
-					</div>
-
-					<!-- Modal body -->
-					<div class="modal-body">
-						<div class="col-md-5 p-3">
-							<img src="https://icon-library.com/images/desk-icon/desk-icon-28.jpg" alt="workspace image" width="200"
-								height="200" />
-						</div>
-
-						<div class="col-md-7 p-3">
-							Capacity: //workspace capacity <br />
-							Equipment: //workspace features <br />
-							Notes: //workspace issues or notes
-						</div>
-					</div>
-
-					<!-- Modal footer -->
-					<div class="modal-footer">
-						<!-- TODO: button to reserve displayed workspace -->
-						<button type="button" class="btn btn-primary btn fa-lg gradient-custom-2 mb-3 disabled">Reserve</button>
-						<button type="button" class="btn btn-primary btn fa-lg gradient-custom-2 mb-3"
-							data-bs-dismiss="modal">Close</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!--- End Workspace information modal-->
-
-	</div> <!-- End Dashboard Content -->
-</body>
-
-</html>
+</div> <!-- End Dashboard Content -->

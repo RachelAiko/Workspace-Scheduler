@@ -15,6 +15,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { HomeComponent } from './components/home/home.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { Dashboardv2Component } from './components/dashboardv2/dashboardv2.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -31,6 +32,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 /* ADDED */
 import { DataService } from './services/data.service';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { DeskComponent } from './components/dashboardv2/desk/desk.component';
+import { ConferenceRoomComponent } from './components/dashboardv2/conference-room/conference-room.component';
 /****************** */
 
 @NgModule({
@@ -40,10 +43,14 @@ import { NgxPaginationModule } from 'ngx-pagination';
     HomeComponent,
     SignupComponent,
     DashboardComponent,
+    Dashboardv2Component,
     ForgotPasswordComponent,
     ReservationsListComponent,
     UserProfileComponent,
     NavbarComponent,
+    Dashboardv2Component,
+    DeskComponent,
+    ConferenceRoomComponent,
   ],
   imports: [
     BrowserModule,
