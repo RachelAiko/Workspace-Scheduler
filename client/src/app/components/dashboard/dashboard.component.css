@@ -30,3 +30,12 @@
 th {
   text-align: center;
 }
+
+#upcoming {
+  display: inline-block;
+  width: 250px !important;
+  height: 200px !important;
+  background-color:#FFFFFF;
+  border: 10px solid;
+  border-color: rgba(214, 141, 150, 0.8);
+}
