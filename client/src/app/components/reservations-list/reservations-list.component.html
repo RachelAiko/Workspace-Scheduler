@@ -1,0 +1,41 @@
+<div class="m-2 p-2">
+	<input (input)="search($event)" type="text" class="w-25" placeholder="Search" aria-label="Search" />
+</div>
+
+<div class="m-2 p-2 list-group">
+	<div class="list-group-item bg-secondary text-white">
+		<div style="font-weight: bold;" class="row align-items-center">
+			<div *ngIf="dataService.currentUser?.isAdmin" class="col-2">Reserved For</div>
+			<div class="col-2">Date</div>
+			<div class="col-2">Office Location</div>
+			<div class="col-2">Workspace</div>
+		</div>
+	</div>
+
+	<h3 *ngIf="reservations.length === 0" class="my-5 text-center">No reservations to show...</h3>
+
+	<button *ngFor="let reservation of reservations | paginate: { itemsPerPage: count, currentPage: p }"
+		(click)=selectReservation(reservation) class="link list-group-item list-group-item-action"
+		[class.active]="selectedReservation === reservation">
+		<div class="row align-items-center bd-highlight">
+			<div *ngIf="dataService.currentUser?.isAdmin" class="col-2 bd-highlight">{{reservation.reservedFor.name}}
+			</div>
+			<div class="col-2 bd-highlight">{{reservation.date.split('T')[0]}}</div>
+			<div class="col-2 bd-highlight">{{reservation.workspace.office.name}}</div>
+			<div class="col-2 bd-highlight">{{reservation.workspace.workspaceType.name}}
+				{{reservation.workspace.spaceNumber}}</div>
+			<div class="col-4 btn-group btn-group-sm" [ngClass]="{hidden: !(selectedReservation === reservation)}"
+				role="group" aria-label="Modify Reservation">
+				<button type="button" (click)=viewReservation(selectedReservation)
+					class="w-50 btn btn-light res-btn">View</button>
+				<button type="button" (click)=dataService.deleteReservation(selectedReservation)
+					class="w-50 btn btn-danger res-btn">Delete</button>
+			</div>
+		</div>
+	</button>
+
+	<div class="text-center">
+		<pagination-controls *ngIf="reservations.length > 20" class="pagination" (pageChange)="p = $event">
+		</pagination-controls>
+	</div>
+</div>

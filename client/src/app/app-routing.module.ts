@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { HomeComponent } from './home/home.component';
-import { SignupComponent } from './signup/signup.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { ReservationsListComponent } from './reservations-list/reservations-list.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
+import { HomeComponent } from './components/home/home.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { Dashboardv2Component } from './components/dashboardv2/dashboardv2.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ReservationsListComponent } from './components/reservations-list/reservations-list.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 import { AuthGuard } from './services/auth.guard';
-import { NavbarComponent } from './navbar/navbar.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 const routes: Routes = [
-  
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   //  { path: 'user-profle', component: UserProfileComponent},
@@ -29,17 +29,21 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'dashboardv2',
+    component: Dashboardv2Component,
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'reservations',
     component: ReservationsListComponent,
     canActivate: [AuthGuard],
   },
   {
-    path: 'user-profile', 
+    path: 'user-profile',
     component: UserProfileComponent,
     canActivate: [AuthGuard],
   },
-  { path: '**', component: HomeComponent }, // catch-all in case no other path matched
-
+  { path: '**', component: DashboardComponent }, // catch-all in case no other path matched
 ];
 
 @NgModule({

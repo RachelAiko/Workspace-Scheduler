@@ -1,0 +1,41 @@
+<div class="container my-5">
+	<span>Office Location: </span>
+	<select [disabled]="true" class="browser-default custom-select" (change)="selectOffice($event)">
+		<option *ngFor="let office of dataService.offices$ | async;let i=index;"
+			[attr.selected]="office.name == selectedOffice?.name ? true : null" value="{{ i }}">{{
+			office.name }}
+		</option>
+	</select>
+</div>
+
+<div class="row m-2 container m-auto">
+
+	<div class="col-sm-3">
+		<div *ngIf="selectedWorkspace !== null" class="card my-3 p-3">
+			<h3>{{selectedWorkspace.workspaceType.name}} {{selectedWorkspace.spaceNumber}}</h3>
+			<span><strong>Date: </strong>{{selectedDate.toISOString().split('T')[0]}}</span>
+			<span><strong>Status: </strong>{{checkAvailability()}}</span>
+			<button class="btn btn-primary mt-3"
+				[disabled]="!dataService.isAvailable(selectedWorkspace) || selectedWorkspace.isPermanent"
+				(click)="dataService.postReservation(this.selectedDate, selectedWorkspace, this.dataService.currentUser?.authID)">Reserve</button>
+		</div>
+		<div class="card">
+			<mat-calendar [selected]="selectedDate" (selectedChange)="selectDate($event)" [minDate]="today"
+				[maxDate]="maxDate">
+			</mat-calendar>
+		</div>
+	</div>
+
+	<div class="col-sm-7 row">
+		<div *ngFor="let desk of desks;let i=index;" class="col-sm-3 col-6">
+			<desk (clicked)="selectWorkspace($event)" [desk]="desk" [rotated]="checkRotation(i)"></desk>
+		</div>
+	</div>
+
+	<div class="col-sm-2">
+		<div *ngFor="let room of conferenceRooms" class="my-5">
+			<conference-room (clicked)="selectWorkspace($event)" [conferenceRoom]=room></conference-room>
+		</div>
+	</div>
+
+</div>

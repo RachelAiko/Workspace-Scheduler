@@ -1,0 +1,13 @@
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+img:hover {
+  opacity: 75%;
+}
+
+.rotated {
+  transform: rotate(180deg);
+}

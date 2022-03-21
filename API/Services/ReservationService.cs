@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Bson;
@@ -23,7 +24,7 @@ namespace MongoDBWebAPI.Services
 			_workspaces = database.GetCollection<Workspace>(settings.WorkspaceCollectionName);
 		}
 
-		public async Task<bool[]> ValidateReservation(string _creatorID, string _date, string _reservedForID)
+		public async Task<bool[]> ValidateReservation(string _creatorID, DateTime _date, string _reservedForID)
 		{
 			bool[] results = { true, true };
 			var existingReservation = await _reservations.Find(rsv => rsv.ReservedFor.AuthID == _reservedForID && rsv.Date == _date).SingleOrDefaultAsync();
@@ -47,7 +48,7 @@ namespace MongoDBWebAPI.Services
 		public async Task<List<Reservation>> GetAllReservations()
 		{
 			List<Reservation> reservations;
-			reservations = await _reservations.Find(rsv => true).Sort(new BsonDocument("Date", 1)).ToListAsync();
+			reservations = await _reservations.Find(rsv => rsv.Date >= DateTime.Today).Sort(new BsonDocument("Date", 1)).ToListAsync();
 			return reservations;
 		}
 
@@ -55,20 +56,25 @@ namespace MongoDBWebAPI.Services
 		public async Task<List<Reservation>> GetReservations(string _requestedID)
 		{
 			List<Reservation> reservations;
-			reservations = await _reservations.Find(rsv => rsv.ReservedFor.AuthID == _requestedID).Sort(new BsonDocument("Date", 1)).ToListAsync();
+			reservations = await _reservations.Find(rsv => rsv.ReservedFor.AuthID == _requestedID && rsv.Date >= DateTime.Today).Sort(new BsonDocument("Date", 1)).ToListAsync();
 			return reservations;
 		}
 
+		public DateTime ParseDate(string date)
+		{
+			return DateTime.ParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+		}
+
 		// GET all reservations for specific date (protected general)
-		public async Task<List<Reservation>> GetReservationsByDate(string _date, string _officeID)
+		public async Task<List<Reservation>> GetReservationsByDate(DateTime _date)
 		{
 			List<Reservation> reservations;
-			reservations = await _reservations.Find(rsv => rsv.Date == _date && rsv.Workspace.Office.Id == _officeID).ToListAsync();
+			reservations = await _reservations.Find(rsv => rsv.Date == _date).ToListAsync();
 			return reservations;
 		}
 
 		// POST a new reservation for specific user (protected per user/role)
-		public async Task<Reservation> CreateReservation(string _creatorID, string _date, string _reservedForID, string _workspaceID)
+		public async Task<Reservation> CreateReservation(string _creatorID, DateTime _date, string _reservedForID, string _workspaceID)
 		{
 			Reservation newReservation = new Reservation();
 			newReservation.Creator = await _users.Find(usr => usr.AuthID == _creatorID).SingleOrDefaultAsync();
