@@ -15,7 +15,9 @@
 			<h3>{{selectedWorkspace.workspaceType.name}} {{selectedWorkspace.spaceNumber}}</h3>
 			<span><strong>Date: </strong>{{selectedDate.toISOString().split('T')[0]}}</span>
 			<span><strong>Status: </strong>{{checkAvailability()}}</span>
-			<button class="btn btn-primary mt-3" [disabled]="!dataService.isAvailable(selectedWorkspace)">Reserve</button>
+			<button class="btn btn-primary mt-3"
+				[disabled]="!dataService.isAvailable(selectedWorkspace) || selectedWorkspace.isPermanent"
+				(click)="dataService.postReservation(this.selectedDate, selectedWorkspace, this.dataService.currentUser?.authID)">Reserve</button>
 		</div>
 		<div class="card">
 			<mat-calendar [selected]="selectedDate" (selectedChange)="selectDate($event)" [minDate]="today"

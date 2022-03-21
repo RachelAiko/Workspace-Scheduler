@@ -6,7 +6,7 @@ import { DataService } from 'src/app/services/data.service';
   selector: 'conference-room',
   template: `
     <button class="btn" (click)="onClick()">
-      <img src="/assets/conference-room-available.png" alt="" />
+      <img src="{{ getImage() }}" alt="" />
     </button>
   `,
   styleUrls: ['./conference-room.component.css'],
@@ -26,12 +26,12 @@ export class ConferenceRoomComponent implements OnInit {
 
   getImage(): string {
     if (this.conferenceRoom?.isPermanent) {
-      return './assets/desk-permanent.png';
+      return './assets/conference-room-permanent.png';
     } else {
       if (this.dataService.isAvailable(this.conferenceRoom)) {
-        return './assets/desk-available.png';
+        return './assets/conference-room-available.png';
       } else {
-        return './assets/desk-reserved.png';
+        return './assets/conference-room-reserved.png';
       }
     }
   }
