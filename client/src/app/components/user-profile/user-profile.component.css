@@ -2,7 +2,7 @@ body{
     margin-top:20px;
     color: #1a202c;
     text-align: left;
-    /* background-color: rgb(223, 220, 228);     */
+    /* background-color: rgb(223, 220, 228);      */
 }
 .main-body {
     padding: 15px;
@@ -21,7 +21,7 @@ body{
     background-clip: border-box;
     border: 0 solid rgba(0,0,0,.125);
     border-radius: .25rem;
-    font-size: medium;
+    font-size: small;
 }
 
 .card-body {
@@ -57,10 +57,10 @@ body{
     background: #e29b43;
   
     /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+    background: -webkit-linear-gradient(to right, #ff5003, #e5b595, rgb(202, 200, 200), #819fb3, #35619d);
   
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+    background: linear-gradient(to right, #ff5003, #e5b595, rgb(202, 200, 200), #819fb3, #35619d);
   }
 
   .middle {
@@ -89,4 +89,28 @@ body{
     padding: 4px 8px;
   }
 
+  .btn {
+      margin: 4px;
+  }
+
+  .top {
+    text-align: center;
+  }
   
+  .indicator.online {
+    background: #28B62C;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+}
+
+
+
+.indicator.offline {
+    background: #FF4136;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    
+}

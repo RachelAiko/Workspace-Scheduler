@@ -1,7 +1,7 @@
 <!-- Home/Landing Page. Contains the user login form -->
 <!-- Login form -->
 <!-- Design Card -->
-<section class="h-100 gradient-form" style="background-color: rgb(223, 220, 228);">
+<section class="h-100 gradient-form" style="background-color: rgb(246, 245, 248);">
 	<div class="container py-5 h-100">
 		<div class="row d-flex justify-content-center align-items-center h-100">
 			<div class="col-xl-10">
@@ -24,8 +24,7 @@
 							<div class="card-body p-md-5 mx-md-4">
 
 								<div class="text-center">
-									<img
-										src="https://images.ctfassets.net/xj0skx6m69u2/cFRNy2dkU6bRc2iRmk7tF/6f1fc904dea9217c746c0b5cfd9eaa32/Logo_CallMiner_Color.svg"
+									<img src="https://images.ctfassets.net/xj0skx6m69u2/cFRNy2dkU6bRc2iRmk7tF/6f1fc904dea9217c746c0b5cfd9eaa32/Logo_CallMiner_Color.svg"
 										style="width: 185px;" alt="logo">
 									<h4 class="mt-1 mb-5 pb-1">Ready to schedule a space?</h4>
 								</div>
@@ -35,25 +34,20 @@
 									<p>Please login to your account</p>
 
 									<div class="form-outline mb-4">
-										<input autocomplete="off" formControlName="email" type="email" size="47" matInput
-											placeholder="Email address" /><br>
+										<input autocomplete="off" formControlName="email" type="email" size="47"
+											matInput placeholder="Email address" /><br>
 										<label class="form-label" for="form2Example11">Username</label>
 									</div>
 
 									<div class="form-outline mb-4">
-										<input autocomplete="off" formControlName="password" type="password" size="47" matInput
-											placeholder="Password" /><br>
+										<input autocomplete="off" formControlName="password" type="password" size="47"
+											matInput placeholder="Password" /><br>
 										<label class="form-label" for="form2Example22">Password</label>
 									</div>
 
 									<div *ngIf="firebaseErrorMessage != ''" class="error-style">
 										<span>{{ firebaseErrorMessage }}</span>
 									</div>
-									<!-- 
-                                        <button mat-raised-button color="primary"
-                                            class="btn btn-primary btn fa-lg gradient-custom-2 mb-3"
-                                            routerLink="/dashboard">Log in</button> -->
-
 									<button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3">Log
 										in</button>
 
@@ -64,7 +58,8 @@
 
 									<div class="d-flex align-items-center justify-content-center pb-4">
 										<p class="mb-0 me-2">Don't have an account?</p>
-										<button type="button" class="btn btn-light" style="color:#d8363a" routerLink="/signup">Sign up
+										<button type="button" class="btn btn-light" style="color:#ff5003"
+											routerLink="/signup">Sign up
 											here!</button>
 									</div>
 								</form>
