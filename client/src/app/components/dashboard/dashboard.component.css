@@ -1,28 +1,41 @@
-html, body {
-  max-width: 100%; 
-  text-align: center;
-}
-
-form{
-  display: inline-block;
+.container-fluid{
+  padding-left: 2.5%;
+  padding-right: 2.5%;
 }
 
 .row {
   display: flex; /* equal height of the children */
+  background:rgb(247, 246, 246);
 }
 
 .col {
-	background: rgb(255, 255, 255);
+  justify-content: center;
+  text-align: center;
+  width: 350px !important;
+	
   border: solid;
 }
 
 .mat-calendar{
   display: inline-block;
-  align-content: center;
   width: 250px !important;
   height: 250px !important;
 }
 
-th, td{
+.table-responsive{
+  display: inline-block;
+  width: 350px !important;
+}
+
+th {
   text-align: center;
+}
+
+#upcoming {
+  display: inline-block;
+  width: 250px !important;
+  height: 200px !important;
+  background-color:#FFFFFF;
+  border: 10px solid;
+  border-color: rgba(214, 141, 150, 0.8);
 }

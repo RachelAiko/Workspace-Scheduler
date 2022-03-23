@@ -3,6 +3,10 @@ div,
   font-size: 1vw;
 }
 
+m-2, p-2, .list-group{
+  background-color: rgb(129, 159, 179);
+}
+
 /* 480 and 768 */
 @media screen and (max-width: 1200px) {
   div,

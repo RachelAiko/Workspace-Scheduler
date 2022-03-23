@@ -72,12 +72,12 @@ export class DashboardComponent implements OnInit {
 
   getColor(workspace: any): string {
     if (workspace.isPermanent) {
-      return 'rgba(219, 50, 54, 0.7)';
+      return 'rgba(129, 159, 179, 0.8)';
     } else {
       if (this.dataService.isAvailable(workspace)) {
-        return 'rgba(60, 186, 84, 0.7)';
+        return 'rgba(155, 207, 182, 0.8)';
       } else {
-        return 'rgba(244, 194, 13, 0.7)';
+        return 'rgba(214, 141, 150, 0.8)';
       }
     }
   }
