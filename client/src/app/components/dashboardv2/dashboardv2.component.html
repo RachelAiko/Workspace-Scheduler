@@ -1,14 +1,15 @@
-<div class="container my-5">
-	<span>Office Location: </span>
-	<select [disabled]="true" class="browser-default custom-select" (change)="selectOffice($event)">
-		<option *ngFor="let office of dataService.offices$ | async;let i=index;"
-			[attr.selected]="office.name == selectedOffice?.name ? true : null" value="{{ i }}">{{
-			office.name }}
-		</option>
-	</select>
-</div>
 
 <div class="row m-2 container m-auto">
+
+	<div class="container my-5">
+		<span>Office Location: </span>
+		<select [disabled]="true" class="browser-default custom-select" (change)="selectOffice($event)">
+			<option *ngFor="let office of dataService.offices$ | async;let i=index;"
+				[attr.selected]="office.name == selectedOffice?.name ? true : null" value="{{ i }}">{{
+				office.name }}
+			</option>
+		</select>
+	</div>
 
 	<div class="col-sm-3">
 		<div *ngIf="selectedWorkspace !== null" class="card my-3 p-3">

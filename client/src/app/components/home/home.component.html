@@ -1,18 +1,18 @@
 <!-- Home/Landing Page. Contains the user login form -->
 <!-- Login form -->
 <!-- Design Card -->
-<section class="h-100 gradient-form" style="background-color: rgb(246, 245, 248);">
+<section class="h-100 gradient-form" style="background-color: #141c38;">
 	<div class="container py-5 h-100">
 		<div class="row d-flex justify-content-center align-items-center h-100">
 			<div class="col-xl-10">
 				<div class="card rounded-3 text-black">
 					<div class="row g-0">
-						<div class="col-lg-6 d-flex align-items-center gradient-custom-2">
+						<div class="col-lg-6 d-flex align-items-center" style="background-color: #E7ECEF;">
 							<div class="text-white px-3 py-4 p-md-5 mx-md-4">
-								<h1 class="mb-1">Workspace Scheduler</h1>
-								<h4 class="mb-4">CallMiner sponsored senior capstone project</h4>
-								<h5 class="mb-5">Creators - Brendan Chase, Gant Innes, Rachel Matthews, Ken
-									Orsini </h5>
+								<h1 class="mb-1"><b>Workspace Scheduler</b></h1>
+								<h3 class="mb-4">CallMiner sponsored senior capstone project</h3>
+								<h4 class="mb-5">Creators - Brendan Chase, Gant Innes,<br> Rachel Matthews, Ken
+									Orsini </h4>
 								<button mat-raised-button color="black" routerLink="/dashboard">
 									Dashboard
 								</button>
@@ -48,7 +48,7 @@
 									<div *ngIf="firebaseErrorMessage != ''" class="error-style">
 										<span>{{ firebaseErrorMessage }}</span>
 									</div>
-									<button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3">Log
+									<button class="btn btn-primary btn-block">Log
 										in</button>
 
 									<div class="text-center pt-1 mb-5 pb-1">
@@ -58,7 +58,7 @@
 
 									<div class="d-flex align-items-center justify-content-center pb-4">
 										<p class="mb-0 me-2">Don't have an account?</p>
-										<button type="button" class="btn btn-light" style="color:#ff5003"
+										<button type="button" class="btn btn-link" style="background-color: #929dca;"
 											routerLink="/signup">Sign up
 											here!</button>
 									</div>

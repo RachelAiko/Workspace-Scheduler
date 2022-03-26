@@ -43,6 +43,13 @@ namespace API
 
 			services.AddControllers();
 
+			services.AddControllersWithViews();
+			// in production, the Angular files will be served from this directory.
+			services.AddSpaStaticFiles(Configuration =>
+			{
+				Configuration.RootPath = "client/dist";
+			});
+
 			services.AddCors();
 
 			services.AddSwaggerGen(c =>
