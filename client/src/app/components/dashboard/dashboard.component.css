@@ -37,5 +37,25 @@ th {
   height: 200px !important;
   background-color:#FFFFFF;
   border: 10px solid;
+  
   border-color: rgba(214, 141, 150, 0.8);
+}
+
+.button {
+  margin: 2px;
+  padding-right: 2px;
+}
+
+.e-selected {
+  /*change color of label*/
+  color:  #ff4f03 !important;
+ }
+
+ div,
+.res-btn {
+  font-size: 1vw;
+}
+
+.row{
+  color: #141c38;
 }

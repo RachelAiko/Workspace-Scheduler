@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { Router } from '@angular/router';
 
 import { DataService } from '../../services/data.service';
 
@@ -17,11 +18,14 @@ export class DashboardComponent implements OnInit {
   selectedWorkspace: any;
   selectedReservation: any;
   selectedDate: any;
+  reservations: any;
+  p: number = 1;
+  count: number = 20;
 
   today = new Date();
   maxDate = new Date(2022, 11, 31);
 
-  constructor(public dataService: DataService) {}
+  constructor(public dataService: DataService, private router: Router) {}
 
   ngOnInit() {
     if (history.state.date === undefined) {
@@ -40,6 +44,7 @@ export class DashboardComponent implements OnInit {
         this.selectedOffice = history.state.office;
       if (this.selectedOffice === undefined) this.selectedOffice = offices[0];
     });
+    this.dataService.reservations$.subscribe((rsv) => this.search(null));
   }
 
   selectOffice(event: any) {
@@ -80,5 +85,26 @@ export class DashboardComponent implements OnInit {
         return 'rgba(214, 141, 150, 0.8)';
       }
     }
+  }
+
+  selectReservation(reservation: any) {
+    this.selectedReservation = reservation;
+  }
+
+  viewReservation(reservation: any) {
+    let date = new Date(reservation.date);
+    this.router.navigate(['/reservations-list'], {
+      state: { date: date, office: reservation.workspace.office },
+    });
+  }
+
+  search(event: any) {
+    if (event === null)
+      this.reservations = this.dataService.filterReservations('');
+    else
+      this.reservations = this.dataService.filterReservations(
+        event.target.value
+      );
+    this.selectedReservation = this.reservations[0];
   }
 }

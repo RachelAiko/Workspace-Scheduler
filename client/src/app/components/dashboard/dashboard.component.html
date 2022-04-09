@@ -27,18 +27,37 @@
 
 			<br /><br /><br />
 
-			
+
 			<div id="upcoming">
 				<br>
+				<!-- Upcoming Reservations display -->
 				<label>Upcoming Reservations!</label>
+				<button *ngFor="let reservation of reservations | paginate: { itemsPerPage: count, currentPage: p }"
+					(click)=selectReservation(reservation) class="link list-group-item list-group-item-action"
+					[class.active]="selectedReservation === reservation">
+					<div class="row align-items-center bd-highlight" style="color: #141c38;">
+						<div *ngIf="dataService.currentUser?.isAdmin" class="col-2 bd-highlight">
+							{{reservation.reservedFor.name}}
+						</div>
+						<div class="col-2 bd-highlight">{{reservation.date.split('T')[0]}}</div>
+						<div class="col-2 bd-highlight">{{reservation.workspace.workspaceType.name}}
+							{{reservation.workspace.spaceNumber}}</div>
+						<div class="col-4 btn-group btn-group-sm"
+							[ngClass]="{hidden: !(selectedReservation === reservation)}" role="group"
+							aria-label="Modify Reservation">
+							<button type="button" (click)=viewReservation(selectedReservation)
+								class="w-50 btn btn-light res-btn">View</button>
+						</div>
+					</div>
+				</button>
 			</div><br /><br /><br />
-			
+
 		</div>
 
 		<!-- Main Content Section (where workspace view will go)-->
 		<div class="col">
 			<br>
-			<h2>WorkSpaces</h2>
+			<h2>Work Spaces</h2>
 			<label> {{selectedOffice?.name }}<br />{{selectedDate.toDateString()}}</label>
 			<br /><br />
 
@@ -48,7 +67,8 @@
 						<tr mdbTableCol *ngFor="let workspace of dataService.filterWorkspaces(selectedOffice)">
 							<th [style.background-color]="getColor(workspace)" scope="row">
 								{{workspace.workspaceType.name}} {{workspace.spaceNumber}}
-								<button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#infoModal">
+								<button type="button" class="btn btn-link" data-bs-toggle="modal"
+									data-bs-target="#infoModal">
 									<i class="fa fa-info-circle"></i>
 								</button> <br />
 								<span>{{checkAvailability(workspace)}}</span><br />
@@ -80,16 +100,18 @@
 						<tr mdbTableCol *ngFor="let workspace of dataService.filterWorkspaces(selectedOffice)">
 							<th [style.background-color]="getColor(workspace)" scope="row">
 								{{workspace.workspaceType.name}} {{workspace.spaceNumber}}
-								<button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#infoModal">
+								<button type="button" class="btn btn-link" data-bs-toggle="modal"
+									data-bs-target="#infoModal">
 									<i class="fa fa-info-circle"></i>
 								</button><br />
 								<span>{{checkAvailability(workspace)}}</span>
 								<br />
-								<input type="button" value="Reserve"
-									(click)="dataService.postReservation(this.selectedDate, workspace, selectedUser === null ? null : selectedUser.authID)" /><br />
-								<input type="button" value="Make Permanent"
-									(click)="dataService.makePermanent(workspace, selectedUser === null ? null : selectedUser.authID)" /><br />
-								<input type="button" value="Remove Permanent" (click)="dataService.removePermanent(workspace)" /><br />
+								<input type="button" class="button" value="Reserve"
+									(click)="dataService.postReservation(this.selectedDate, workspace, selectedUser === null ? null : selectedUser.authID)" />
+								<input type="button" class="button" value="Make Permanent"
+									(click)="dataService.makePermanent(workspace, selectedUser === null ? null : selectedUser.authID)" />
+								<input type="button" class="button" value="Remove Permanent"
+									(click)="dataService.removePermanent(workspace)" />
 							</th>
 						</tr>
 					</tbody>
@@ -103,7 +125,7 @@
 				<div class="modal-content">
 					<!-- Modal Header -->
 					<div class="modal-header">
-						<h4 class="modal-title">Workspace Information</h4>
+						<h2 class="modal-title">Workspace Information</h2>
 						<button type="button" class="btn-close" data-bs-toggle="tooltip" title="Workspace information"
 							data-bs-dismiss="modal"></button>
 					</div>
@@ -111,27 +133,28 @@
 					<!-- Modal body -->
 					<div class="modal-body">
 						<div class="col-md-5 p-3">
-							<img src="https://icon-library.com/images/desk-icon/desk-icon-28.jpg" alt="workspace image" width="200"
-								height="200" />
+							<img src="https://icon-library.com/images/desk-icon/desk-icon-28.jpg" alt="workspace image"
+								width="200" height="200" />
 						</div>
 
-						<div class="col-md-7 p-3"> <b>Capacity:
-                            <br> Equipment:</b>
-                            <br>
-                            <label for="w3review">Notes or concerns about space:</label>
-                            <textarea id="w3review" name="w3review" rows="4" cols="50">
-  
+						<div class="col-md-7 p-3"> <b>Capacity :</b> 1
+							<br> <b>Equipment :</b>Computer, 2 monitors, HDMI cable, Desk, Chair
+							<br>
+							<label for="w3review">Notes or concerns about space:</label>
+							<textarea id="w3review" name="w3review" rows="4" cols="50">
+
                             </textarea>
-                            <br>
-                            <input class="disabled" type="submit" value="Submit">
-                        </div>
+							<br>
+							<input class="disabled" type="submit" value="Submit">
+						</div>
 					</div>
 
 					<!-- Modal footer -->
 					<div class="modal-footer">
 						<!-- TODO: button to reserve displayed workspace -->
-						<button type="button" class="btn btn-primary btn fa-lg gradient-custom-2 mb-3 disabled">Reserve</button>
-						<button type="button" class="btn btn-primary btn fa-lg gradient-custom-2 mb-3"
+						<button type="button" class="btn btn-primary"
+							style="background-color: #141c38;">Reserve</button>
+						<button type="button" class="btn btn-primary" style="background-color: #141c38;"
 							data-bs-dismiss="modal">Close</button>
 					</div>
 				</div>
