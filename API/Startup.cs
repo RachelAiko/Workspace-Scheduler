@@ -90,7 +90,7 @@ namespace API
 			}
 			// app.ConfigureExceptionMiddleware();
 
-			app.UseHttpsRedirection();
+			//app.UseHttpsRedirection();
 
 			app.UseRouting();
 

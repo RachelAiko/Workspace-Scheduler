@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    volumes: 
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - 3000:3000      
+    depends_on:
+      - api
+
+  api:
+    container_name: api
+    build:
+      context: ./api
+      dockerfile: Dockerfile.api
+    ports:
+      - 80:80
+    

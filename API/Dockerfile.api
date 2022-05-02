@@ -1,0 +1,9 @@
+#FROM node:12.18.1
+FROM mcr.microsoft.com/dotnet/aspnet:5.0
+
+WORKDIR /API
+
+COPY ./bin/Release/net5.0 .
+
+#CMD ["node", "server.js"]
+ENTRYPOINT ["dotnet", "API.dll"]

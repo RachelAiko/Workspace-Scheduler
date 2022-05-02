@@ -1,0 +1,17 @@
+#need node based image (get from docker hub)
+FROM alpine:3.14
+
+ENTRYPOINT NODE_VERSION 17.9.0
+
+WORKDIR /WORKSPACE_SCHEDULER 
+
+#ENTRYPOINT ["dotnet", "API.dll"]
+
+#COPY package.jason ./
+
+#RUN npm install 
+#RUN ng serve
+
+COPY . .
+
+CMD ["ng", "serve"]
